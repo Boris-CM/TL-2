@@ -1,17 +1,19 @@
 package audiovisual;
 
 import java.util.List;
+import enumerativos.Genero;
 
 /**
  * Clase abstracta que representa un contenido audiovisual genérico.
- * Contiene información básica como título, sinopsis, elenco, director y cantidad de vistas.
+ * Contiene información básica como título, sinopsis, elenco, director, vistas,
+ * género y reseñas asociadas por parte de los usuarios.
  * 
- * Esta clase debe ser extendida por tipos concretos de contenido 
+ * Esta clase debe ser extendida por tipos concretos de contenido
  * (por ejemplo {@link Contenido}), que deben implementar el método {@link #reproducir(int, int, int)}.
  * 
  * @author Tomas
  * @author Boris
- * @version 1.0
+ * @version 1.2
  */
 public abstract class Audiovisual {
     private int id;
@@ -20,6 +22,8 @@ public abstract class Audiovisual {
     private List<String> elenco;
     private String director;
     private int vistas;
+    private Genero genero;
+    private List<Resena> resenas;
 
     /**
      * Constructor de la clase Audiovisual.
@@ -30,69 +34,75 @@ public abstract class Audiovisual {
      * @param elenco lista de actores o participantes
      * @param director director del contenido
      * @param vistas cantidad de visualizaciones registradas
+     * @param genero género principal del audiovisual
+     * @param resenas lista de reseñas realizadas por los usuarios
      */
-    public Audiovisual(int id, String titulo, String sinopsis, List<String> elenco, String director, int vistas) {
+    public Audiovisual(int id, String titulo, String sinopsis, List<String> elenco,
+                       String director, int vistas, Genero genero, List<Resena> resenas) {
         this.id = id;
         this.titulo = titulo;
         this.sinopsis = sinopsis;
         this.elenco = elenco;
         this.director = director;
         this.vistas = vistas;
+        this.genero = genero;
+        this.resenas = resenas;
     }
 
-    /** @return identificador único del audiovisual */
-    public int getId() { 
-        return id;
-    }
-    /** @param id nuevo identificador del audiovisual */
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    /** @return título del audiovisual */
+    public int getId() { return id; }
+    public void setId(int id) { 
+    	this.id = id; 
+    	}
+
     public String getTitulo() { 
-        return titulo; 
-    }
-    /** @param titulo nuevo título del audiovisual */
-    public void setTitulo(String titulo) { 
-        this.titulo = titulo; 
-    }
+    	return titulo; 
+    	}
+    public void setTitulo(String titulo) {
+    	this.titulo = titulo;
+    	}
 
-    /** @return sinopsis del audiovisual */
     public String getSinopsis() { 
-        return sinopsis; 
-    }
-    /** @param sinopsis nueva descripción del audiovisual */
+    	return sinopsis;
+    	}
     public void setSinopsis(String sinopsis) { 
-        this.sinopsis = sinopsis; 
-    }
+    	this.sinopsis = sinopsis; 
+    	}
 
-    /** @return elenco del audiovisual */
-    public List<String> getElenco() { 
-        return elenco; 
-    }
-    /** @param elenco nueva lista de actores/participantes */
-    public void setElenco(List<String> elenco) { 
-        this.elenco = elenco;
-    }
+    public List<String> getElenco() {
+    	return elenco;
+    	}
+    public void setElenco(List<String> elenco) {
+    	this.elenco = elenco; 
+    	}
 
-    /** @return nombre del director */
     public String getDirector() {
-        return director; 
-    }
-    /** @param director nuevo director del audiovisual */
-    public void setDirector(String director) {
-        this.director = director; 
+    	return director; 
+    	}
+    public void setDirector(String director) 
+    { this.director = director;
     }
 
-    /** @return cantidad de vistas del audiovisual */
     public int getVistas() { 
-        return vistas; 
-    }
-    /** @param vistas nueva cantidad de visualizaciones */
+    	return vistas; 
+    	}
     public void setVistas(int vistas) { 
-        this.vistas = vistas;
-    }
+    	this.vistas = vistas; 
+    	}
+
+    public Genero getGenero() {
+    	return genero; 
+    	}
+    public void setGenero(Genero genero) { 
+    	this.genero = genero;
+    	}
+
+    public List<Resena> getResenas() { 
+    	return resenas; 
+    	}
+    public void setResenas(List<Resena> resenas) {
+    	this.resenas = resenas; 
+    	}
 
     /**
      * Método abstracto que obliga a las subclases a definir cómo se reproducirá
