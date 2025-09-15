@@ -1,7 +1,6 @@
 package audiovisual;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Representa una lista de reproducción que contiene múltiples objetos de tipo {@link Contenido}.
@@ -14,7 +13,7 @@ import java.util.List;
 public class ListaReproduccion {
     private int id;
     private String nombre;
-    private List<Contenido> contenidos;
+    private ArrayList<Audiovisual> contenidos;
 
     /**
      * Crea una nueva lista de reproducción.
@@ -25,7 +24,7 @@ public class ListaReproduccion {
     public ListaReproduccion(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.contenidos = new ArrayList<>(); 
+        this.contenidos = new ArrayList<Audiovisual>(); 
     }
 
     /**
@@ -65,32 +64,32 @@ public class ListaReproduccion {
     }
 
     /**
-     * Devuelve la colección de contenidos almacenados en la lista.
+     * Devuelve la colección de audiovisual almacenados en la lista.
      *
-     * @return lista de contenidos
+     * @return lista de audiovisuales
      */
-    public List<Contenido> getContenidos() {
+    public ArrayList<Audiovisual> getContenidos() {
         return contenidos; 
     }
 
     /**
-     * Agrega un contenido a la lista de reproducción si no estaba previamente.
+     * Agrega un audiovisual a la lista de reproducción si no estaba previamente.
      *
-     * @param c contenido a agregar
+     * @param c audiovisual a agregar
      */
-    public void agregarContenido(Contenido c) {
+    public void agregarContenido(Audiovisual c) {
         if (c != null && !contenidos.contains(c)) {
             contenidos.add(c);
         }
     }
 
     /**
-     * Elimina un contenido de la lista de reproducción si existe.
+     * Elimina un audiovisual de la lista de reproducción si existe.
      *
-     * @param c contenido a eliminar
-     * @return true si el contenido se eliminó, false si no estaba
+     * @param c audiovisual a eliminar
+     * @return {@code true} si el audiovisual se eliminó, false si no estaba
      */
-    public boolean eliminarContenido(Contenido c) {
+    public boolean eliminarContenido(Audiovisual c) {
         return contenidos.remove(c);
     }
 }

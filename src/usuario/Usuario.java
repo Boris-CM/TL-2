@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import enumerativos.*;
+import audiovisual.*;
 
 /**
  * La clase Usuario implementa la logica que sea nesesaria para manipular todo lo correspondiente a los usuarios
@@ -22,12 +23,15 @@ public class Usuario {
 	private Pais pais;
 	private Idioma idioma;
 	private Estado estado;
+	private ListaReproduccion favoritos;
+	private ListaReproduccion historial;
 	
 	//Constructor
 	public Usuario() {}
 
 	public Usuario(int id, String nombre, String apellido, String email, String contrasenia,
-			ArrayList<Genero> generosFavoritos, Pais pais, Idioma idioma, Estado estado) {
+			ArrayList<Genero> generosFavoritos, Pais pais, Idioma idioma, Estado estado,
+			ListaReproduccion favoritos, ListaReproduccion historial) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -37,6 +41,8 @@ public class Usuario {
 		this.pais = pais;
 		this.idioma = idioma;
 		this.estado = estado;
+		this.favoritos = favoritos;
+		this.historial = historial;
 	}
 
 	//Getters y Setters
@@ -94,17 +100,34 @@ public class Usuario {
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
-	
+	public ListaReproduccion getFavoritos() {
+		return favoritos;
+	}
+
+	public void setFavoritos(ListaReproduccion favoritos) {
+		this.favoritos = favoritos;
+	}
+
+	public ListaReproduccion getHistorial() {
+		return historial;
+	}
+
+	public void setHistorial(ListaReproduccion historial) {
+		this.historial = historial;
+	}
+
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email
 				+ ", contrasenia=" + contrasenia + ", generosFavoritos=" + generosFavoritos + ", pais=" + pais
-				+ ", idioma=" + idioma + ", estado=" + estado + "]";
+				+ ", idioma=" + idioma + ", estado=" + estado + ", favoritos=" + favoritos + ", historial=" + historial
+				+ "]";
 	}
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(apellido, contrasenia, email, estado, id, idioma, nombre, pais, generosFavoritos);
+		return Objects.hash(apellido, contrasenia, email, estado, favoritos, generosFavoritos, historial, id, idioma,
+				nombre, pais);
 	}
 
 	@Override
@@ -117,49 +140,65 @@ public class Usuario {
 			return false;
 		Usuario other = (Usuario) obj;
 		return Objects.equals(apellido, other.apellido) && Objects.equals(contrasenia, other.contrasenia)
-				&& Objects.equals(email, other.email) && estado == other.estado && id == other.id
-				&& idioma == other.idioma && Objects.equals(nombre, other.nombre) && pais == other.pais
-				&& Objects.equals(generosFavoritos, other.generosFavoritos);
+				&& Objects.equals(email, other.email) && estado == other.estado
+				&& Objects.equals(favoritos, other.favoritos)
+				&& Objects.equals(generosFavoritos, other.generosFavoritos)
+				&& Objects.equals(historial, other.historial) && id == other.id && idioma == other.idioma
+				&& Objects.equals(nombre, other.nombre) && pais == other.pais;
 	}
-	
-	//METODOS PARA EL JAVADOC
-	
+
 	/**
-	 * Agrega el genero al final de la lista generosFavoritos, en caso de ya este en la lista no lo agrega
+	 * Agrega el genero al final de la lista generosFavoritos, en caso de que se encuentre en la lista no lo agrega
 	 * 
-	 * @param genero El genero que se desea agregar
+	 * @param elemento El genero que se desea agregar
 	 * 
 	 */
-	public void agregarGenero(Genero genero) {
+	public void agregarGenero(Genero elemento) {
 		ArrayList<Genero> generos  = this.getGenerosFavoritos();
-		if(generos.indexOf(genero) != -1) {
-			generos.add(genero);
+		if(generos.indexOf(elemento) != -1) {
+			generos.add(elemento);
 		}
 	}
 	
 	/**
 	 * Elimina el genero de la lista de generosFavoritos
 	 * 
-	 * @param genero El genero que se desea reliminar
+	 * @param elemento El genero que se desea eliminar
 	 * 
 	 */
-	public void eliminarGenero(Genero genero) {
-		ArrayList<Genero> generos  = this.getGenerosFavoritos();
-		int index = generos.indexOf(genero);
-		if(index != -1) {
-			generos.remove(index);
-		}
+	public void eliminarGenero(Genero elemento) {
+		this.getGenerosFavoritos().remove(elemento);
 	}
 	
 	/**
-	 * Agrega el genero al final de la lista generosFavoritos, en caso de ya este en la lista no lo agrega
+	 * Agrega el audiovisual al final de favoritos
 	 * 
-	 * @param genero El genero que se desea agregar
+	 * @param elemento El Audiovisual que se desea agregar
 	 * 
 	 */
-	public void agregarAudiovisual() {}
+	public void agregarFavorito(Audiovisual elemento) {
+		this.getFavoritos().agregarContenido(elemento);
+	}
 	
-	public void eliminarAudiovisual() {}
+	/**
+	 * Elimina el audiovisual de favoritos
+	 * 
+	 * @param elemento El audiovisual que se desea eliminar
+	 * 
+	 */
+	public void eliminarFavorito(Audiovisual elemento) {
+		this.getFavoritos().eliminarContenido(elemento);
+	}
+	
+	/**
+	 * Agrega el audiovisual al final del historial
+	 * 
+	 * @param elemento El audiovisual que se desea agregar
+	 * 
+	 */
+	public void agregarHistorial(Audiovisual elemento) {
+		this.getHistorial().agregarContenido(elemento);
+	}
 	
 	
 }
