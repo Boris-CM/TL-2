@@ -1,10 +1,9 @@
-package usuario;
+package modelo;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 import enumerativos.*;
-import audiovisual.*;
 
 /**
  * La clase Usuario implementa la logica que sea nesesaria para manipular todo lo correspondiente a los usuarios
@@ -24,14 +23,14 @@ public class Usuario {
 	private Idioma idioma;
 	private Estado estado;
 	private ListaReproduccion favoritos;
-	private ListaReproduccion historial;
+	private ArrayList<Historial> historial;
 	
 	//Constructor
 	public Usuario() {}
 
 	public Usuario(int id, String nombre, String apellido, String email, String contrasenia,
 			ArrayList<Genero> generosFavoritos, Pais pais, Idioma idioma, Estado estado,
-			ListaReproduccion favoritos, ListaReproduccion historial) {
+			ListaReproduccion favoritos, ArrayList<Historial> historial) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -108,11 +107,11 @@ public class Usuario {
 		this.favoritos = favoritos;
 	}
 
-	public ListaReproduccion getHistorial() {
+	public ArrayList<Historial> getHistorial() {
 		return historial;
 	}
 
-	public void setHistorial(ListaReproduccion historial) {
+	public void setHistorial(ArrayList<Historial> historial) {
 		this.historial = historial;
 	}
 
@@ -196,8 +195,8 @@ public class Usuario {
 	 * @param elemento El audiovisual que se desea agregar
 	 * 
 	 */
-	public void agregarHistorial(Audiovisual elemento) {
-		this.getHistorial().agregarContenido(elemento);
+	public void agregarHistorial(Historial elemento) {
+		this.getHistorial().add(elemento);
 	}
 	
 	

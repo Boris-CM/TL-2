@@ -1,4 +1,4 @@
-package audiovisual;
+package modelo;
 
 public class Resena {
 

@@ -1,4 +1,4 @@
-package audiovisual;
+package modelo;
 
 import java.util.ArrayList;
 

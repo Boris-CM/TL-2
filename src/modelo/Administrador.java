@@ -1,7 +1,6 @@
-package usuario;
+package modelo;
 
 import java.util.ArrayList;
-import audiovisual.*;
 /**
  * La clase Administrador implementa la logica que sea nesesaria para manipular todo lo correspondiente a los administradores
  * 
