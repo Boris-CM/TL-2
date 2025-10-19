@@ -14,6 +14,7 @@ import enumerativos.*;
 public class Usuario {
 
 	private int id;
+	private String nombreUsuario;
 	private String nombre;
 	private String apellido;
 	private String email;
@@ -24,13 +25,14 @@ public class Usuario {
 	private Estado estado;
 	private ListaReproduccion favoritos;
 	private ArrayList<Historial> historial;
+	private DatosPersonales datos;
 	
 	//Constructor
 	public Usuario() {}
 
 	public Usuario(int id, String nombre, String apellido, String email, String contrasenia,
 			ArrayList<Genero> generosFavoritos, Pais pais, Idioma idioma, Estado estado,
-			ListaReproduccion favoritos, ArrayList<Historial> historial) {
+			ListaReproduccion favoritos, ArrayList<Historial> historial, DatosPersonales datos) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -42,6 +44,7 @@ public class Usuario {
 		this.estado = estado;
 		this.favoritos = favoritos;
 		this.historial = historial;
+		this.datos = datos;
 	}
 
 	//Getters y Setters
@@ -50,6 +53,12 @@ public class Usuario {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
 	}
 	public String getNombre() {
 		return nombre;
