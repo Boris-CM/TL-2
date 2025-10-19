@@ -1,5 +1,7 @@
 package usuario;
 
+import java.util.ArrayList;
+import audiovisual.*;
 /**
  * La clase Administrador implementa la logica que sea nesesaria para manipular todo lo correspondiente a los administradores
  * 
@@ -14,7 +16,9 @@ public class Administrador extends Usuario {
 	 * @param elemento El audiovisual que se desea agregar
 	 * @param lista La listaDeRepoduccion en la que se agregar el elemento
 	 */
-	public void agregarAudiovisual() {}
+	public void agregarAudiovisual(ListaReproduccion list, Audiovisual elemento) {
+		list.agregarContenido(elemento);
+	}
 	
 	/**
 	 * Elimina el Audiovisual de la ListaDeRepoduccion
@@ -22,21 +26,29 @@ public class Administrador extends Usuario {
 	 * @param elemento El audiovisual que se desea eliminar
 	 * @param lista La listaDeRepoduccion en la que se elimina el elemento
 	 */
-	public void eliminarAudiovisual() {}
+	public void eliminarAudiovisual(ListaReproduccion list, Audiovisual elemento) {
+		list.eliminarContenido(elemento);
+	}
 	
 	/**
 	 * Agrega la listaDeRepoduccion al final de la lista de listaDeRepoduccion
 	 * 
-	 * @param elemento La listaDeRepoduccion que se desea agregar
 	 * @param catalogo La lista de listaDeRepoduccion en la que va agregar el elemento
+	 * @param elemento La listaDeRepoduccion que se desea agregar
 	 */
-	public void agregarCatalogo() {}
+	public void agregarCatalogo(ArrayList<ListaReproduccion> list, ListaReproduccion elemento) {
+		list.add(elemento);
+	}
 	
 	/**
 	 * Elimina la listaDeRepoduccionque de la lista de ListaDeRepoduccion
 	 * 
-	 * @param elemento La listaDeRepoduccion que se desea eliminar
-	 * @param lista La lista de listaDeRepoduccion en la que se elimina el elemento
+	 * @param lista La lista de ListaReproduccion en la que se elimina el elemento
+	 * @param elemento La ListaReproduccion que se desea eliminar
+	 * 
+	 * @return {@code true} Si la ListaReproduccion se eliminó
 	 */
-	public void eliminarCatalogo() {}
+	public boolean eliminarCatalogo(ArrayList<ListaReproduccion> list, ListaReproduccion elemento) {
+		return list.remove(elemento);
+	}
 }
