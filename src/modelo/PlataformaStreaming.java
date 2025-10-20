@@ -6,6 +6,7 @@ public class PlataformaStreaming {
 	private Usuario usuario;
 	private ArrayList<Usuario> usuarios;
 	private ArrayList<Audiovisual> contenidos;
+	private Reproductor reproductor;
 	
 	public PlataformaStreaming(){}
 	
@@ -34,6 +35,16 @@ public class PlataformaStreaming {
 		this.contenidos = contenidos;
 	}
 
+	public Reproductor getReproductor() {
+		return reproductor;
+	}
+
+	public void setReproductor(Reproductor reproductor) {
+		this.reproductor = reproductor;
+	}
+
+	// ------------------------------
+	
 	public void iniciarSesion(String email, String contrasenia){
 		for (int i = 0; i < this.getUsuarios().size(); i++) {
 	        Usuario actual = this.getUsuarios().get(i);
@@ -46,6 +57,12 @@ public class PlataformaStreaming {
 	
 	public void agregarUsuario(Usuario u){
 		this.getUsuarios().add(u);
+	}
+	
+	public void reproducir(Historial historial){
+		Reproductor rep = this.getReproductor();
+		rep.setUltContenido(historial);
+		rep.play();
 	}
 	
 	public ArrayList<Historial> getHistorialUsuario(){
