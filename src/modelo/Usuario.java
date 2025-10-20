@@ -180,9 +180,9 @@ public class Usuario {
 	}
 	
 	/**
-	 * Agrega el audiovisual al final de favoritos
+	 * Agrega el contenido al final de favoritos
 	 * 
-	 * @param elemento El Audiovisual que se desea agregar
+	 * @param elemento El contenido que se desea agregar
 	 * 
 	 */
 	public void agregarFavorito(Contenido elemento) {
@@ -190,9 +190,9 @@ public class Usuario {
 	}
 	
 	/**
-	 * Elimina el audiovisual de favoritos
+	 * Elimina el contenido de favoritos
 	 * 
-	 * @param elemento El audiovisual que se desea eliminar
+	 * @param elemento El contenido que se desea eliminar
 	 * 
 	 */
 	public void eliminarFavorito(Contenido elemento) {
@@ -200,9 +200,9 @@ public class Usuario {
 	}
 	
 	/**
-	 * Agrega el audiovisual al final del historial
+	 * Agrega el contenido al final del Historial
 	 * 
-	 * @param elemento El audiovisual que se desea agregar
+	 * @param elemento El contenido que se desea agregar
 	 * 
 	 */
 	public void agregarHistorial(Historial elemento) {

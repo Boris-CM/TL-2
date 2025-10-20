@@ -33,15 +33,15 @@ public abstract class Contenido {
     /**
      * Constructor de la clase Audiovisual.
      * 
-     * @param titulo título de la obra
-     * @param sinopsis breve descripción del contenido
-     * @param elenco lista de actores o participantes
-     * @param director director del contenido
-     * @param vistas cantidad de visualizaciones registradas
-     * @param genero género principal del contenido
-     * @param resenias lista de reseñas realizadas por los usuarios
-     * @param trailer trailer del contenido
-     * @param paisesRestringidos lista de los paises en donde es restringido
+     * @param titulo Título de la obra
+     * @param sinopsis Breve descripción del contenido
+     * @param elenco Lista de actores o participantes
+     * @param director Director del contenido
+     * @param vistas Cantidad de visualizaciones registradas
+     * @param genero Género principal del contenido
+     * @param resenias Lista de reseñas realizadas por los usuarios
+     * @param trailer Trailer del contenido
+     * @param paisesRestringidos Lista de los paises en donde es restringido
      */
     public Contenido(
     		String titulo, String sinopsis, ArrayList<String> elenco,

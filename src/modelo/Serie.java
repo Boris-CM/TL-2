@@ -12,14 +12,14 @@ public class Serie extends Contenido  {
 	/**
      * Constructor de la clase Serie.
      * 
-     * @param titulo título de la serie
-     * @param sinopsis breve descripción de la serie
-     * @param elenco elenco principal de la serie
-     * @param director director de la serie
-     * @param vistas cantidad de visualizaciones registradas
-     * @param genero género principal de la serie
-     * @param resenias lista de reseñas realizadas por los usuarios
-     * @param trailer trailer de la serie
+     * @param titulo Título de la serie
+     * @param sinopsis Breve descripción de la serie
+     * @param elenco Elenco principal de la serie
+     * @param director Director de la serie
+     * @param vistas Cantidad de visualizaciones registradas
+     * @param genero Género principal de la serie
+     * @param resenias Lista de reseñas realizadas por los usuarios
+     * @param trailer Trailer de la serie
      */
     
 
@@ -55,6 +55,12 @@ public class Serie extends Contenido  {
 		this.temporadas.add(temporada);
 	}
 	
+	/**
+	 * Elimina la temporada de la lista de temporadas
+	 * 
+	 * @param temporada La temporada que se desea eliminar
+	 * 
+	 */
 	public void eliminarTemporada(Temporada temporada) {
 		int num = temporada.getNumTemporada();
 		this.getTemporadas().removeIf(obj -> obj.getNumTemporada() == num);
