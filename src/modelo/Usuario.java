@@ -23,7 +23,7 @@ public class Usuario {
 	private Pais pais;
 	private Idioma idioma;
 	private Estado estado;
-	private ListaReproduccion favoritos;
+	private ArrayList<Contenido> favoritos;
 	private ArrayList<Historial> historial;
 	private DatosPersonales datos;
 	
@@ -32,7 +32,7 @@ public class Usuario {
 
 	public Usuario(int id, String nombre, String apellido, String email, String contrasenia,
 			ArrayList<Genero> generosFavoritos, Pais pais, Idioma idioma, Estado estado,
-			ListaReproduccion favoritos, ArrayList<Historial> historial, DatosPersonales datos) {
+			ArrayList<Contenido> favoritos, ArrayList<Historial> historial, DatosPersonales datos) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -47,7 +47,8 @@ public class Usuario {
 		this.datos = datos;
 	}
 
-	//Getters y Setters
+	// ----- Getters & Setters -----
+	
 	public int getId() {
 		return id;
 	}
@@ -108,11 +109,11 @@ public class Usuario {
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
-	public ListaReproduccion getFavoritos() {
+	public ArrayList<Contenido> getFavoritos() {
 		return favoritos;
 	}
 
-	public void setFavoritos(ListaReproduccion favoritos) {
+	public void setFavoritos(ArrayList<Contenido> favoritos) {
 		this.favoritos = favoritos;
 	}
 
@@ -184,8 +185,8 @@ public class Usuario {
 	 * @param elemento El Audiovisual que se desea agregar
 	 * 
 	 */
-	public void agregarFavorito(Audiovisual elemento) {
-		this.getFavoritos().agregarContenido(elemento);
+	public void agregarFavorito(Contenido elemento) {
+		this.getFavoritos().add(elemento);
 	}
 	
 	/**
@@ -194,8 +195,8 @@ public class Usuario {
 	 * @param elemento El audiovisual que se desea eliminar
 	 * 
 	 */
-	public void eliminarFavorito(Audiovisual elemento) {
-		this.getFavoritos().eliminarContenido(elemento);
+	public void eliminarFavorito(Contenido elemento) {
+		this.getFavoritos().remove(elemento);
 	}
 	
 	/**

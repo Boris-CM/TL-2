@@ -1,116 +1,153 @@
 package modelo;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+
+import enumerativos.Genero;
 import enumerativos.Pais;
 
 /**
- * Representa un contenido audiovisual específico dentro de la plataforma.
- * Extiende de {@link Audiovisual} e incluye información adicional como
- * duración, múltiples pistas de video, audio y subtítulos, así como restricciones por país.
+ * Clase abstracta que representa un contenido audiovisual genérico.
+ * Contiene información básica como título, sinopsis, elenco, director, vistas,
+ * género y reseñas asociadas por parte de los usuarios.
+ * 
+ * Esta clase debe ser extendida por tipos concretos de contenido
+ * (por ejemplo {@link Audiovisual}), que deben implementar el método {@link #reproducir(int, int, int)}.
  * 
  * @author Tomas
  * @author Boris
- * @version 1.1
+ * @version 1.2
  */
-public class Contenido extends Audiovisual {
-    private int audioIndex;
-    private int subtituloIndex;
-    private int videoIndex;
-    private int duracion;
-
-    private Video[] videos;
-    private Audio[] audios;
-    private Subtitulo[] subtitulos;
+public abstract class Contenido {
+    private String titulo;
+    private String sinopsis;
+    private ArrayList<String> elenco;
+    private String director;
+    private int vistas;
+    private Genero genero;
+    private ArrayList<Resenia> resenias;
+    private Trailer trailer;
     private Pais[] paisesRestringidos;
 
     /**
-     * Constructor de la clase Contenido.
+     * Constructor de la clase Audiovisual.
      * 
-     * @param id identificador del contenido
-     * @param titulo título del contenido
+     * @param titulo título de la obra
      * @param sinopsis breve descripción del contenido
-     * @param elenco elenco principal del contenido
+     * @param elenco lista de actores o participantes
      * @param director director del contenido
      * @param vistas cantidad de visualizaciones registradas
-     * @param genero género principal del audiovisual
-     * @param resenas lista de reseñas realizadas por los usuarios
-     * @param duracion duración total del contenido en minutos
-     * @param audioIndex índice de la pista de audio por defecto
-     * @param subtituloIndex índice del subtítulo por defecto
-     * @param videoIndex índice del video por defecto
-     * @param videos conjunto de videos disponibles
-     * @param audios conjunto de audios disponibles
-     * @param subtitulos conjunto de subtítulos disponibles
-     * @param paisesRestringidos lista de países donde el contenido no está disponible
+     * @param genero género principal del contenido
+     * @param resenias lista de reseñas realizadas por los usuarios
+     * @param trailer trailer del contenido
+     * @param paisesRestringidos lista de los paises en donde es restringido
      */
-    public Contenido(int id, String titulo, String sinopsis, List<String> elenco,
-                     String director, int vistas, enumerativos.Genero genero, List<Resena> resenas,
-                     int duracion, int audioIndex, int subtituloIndex, int videoIndex,
-                     Video[] videos, Audio[] audios, Subtitulo[] subtitulos,
-                     Pais[] paisesRestringidos) {
-        super(id, titulo, sinopsis, elenco, director, vistas, genero, resenas);
-        this.duracion = duracion;
-        this.audioIndex = audioIndex;
-        this.subtituloIndex = subtituloIndex;
-        this.videoIndex = videoIndex;
-        this.videos = videos;
-        this.audios = audios;
-        this.subtitulos = subtitulos;
+    public Contenido(
+    		String titulo, String sinopsis, ArrayList<String> elenco,
+            String director, int vistas, Genero genero, ArrayList<Resenia> resenias,
+            Trailer trailer, Pais[] paisesRestringidos) {
+        this.titulo = titulo;
+        this.sinopsis = sinopsis;
+        this.elenco = elenco;
+        this.director = director;
+        this.vistas = vistas;
+        this.genero = genero;
+        this.resenias = resenias;
+        this.trailer = trailer;
         this.paisesRestringidos = paisesRestringidos;
     }
 
     // ----- Getters & Setters -----
+    
+	public String getTitulo() { 
+    	return titulo; 
+    }
 
-    public int getDuracion() { return duracion; }
-    public void setDuracion(int duracion) { 
-    	this.duracion = duracion; 
-    	}
+	public void setTitulo(String titulo) {
+    	this.titulo = titulo;
+    }
 
-    public int getAudioIndex() { return audioIndex; }
-    public void setAudioIndex(int audioIndex) { 
-    	this.audioIndex = audioIndex; 
-    	}
+    public String getSinopsis() { 
+    	return sinopsis;
+    }
+    public void setSinopsis(String sinopsis) { 
+    	this.sinopsis = sinopsis; 
+    }
 
-    public int getSubtituloIndex() { 
-    	return subtituloIndex;
-    	}
-    public void setSubtituloIndex(int subtituloIndex) { 
-    	this.subtituloIndex = subtituloIndex; 
-    	}
+    public ArrayList<String> getElenco() {
+    	return elenco;
+    }
+    public void setElenco(ArrayList<String> elenco) {
+    	this.elenco = elenco; 
+    }
 
-    public int getVideoIndex() { 
-    	return videoIndex; 
-    	}
-    public void setVideoIndex(int videoIndex) {
-    	this.videoIndex = videoIndex; 
-    	}
+    public String getDirector() {
+    	return director; 
+    }
+    public void setDirector(String director) { 
+    	this.director = director;
+    }
 
-    public Video[] getVideos() { 
-    	return videos;
-    	}
-    public void setVideos(Video[] videos) {
-    	this.videos = videos;
-    	}
+    public int getVistas() { 
+    	return vistas; 
+    }
+    public void setVistas(int vistas) { 
+    	this.vistas = vistas; 
+    }
 
-    public Audio[] getAudios() { 
-    	return audios; 
-    	}
-    public void setAudios(Audio[] audios) { 
-    	this.audios = audios; 
-    	}
+    public Genero getGenero() {
+    	return genero; 
+    }
+    public void setGenero(Genero genero) { 
+    	this.genero = genero;
+    }
 
-    public Subtitulo[] getSubtitulos() {
-    	return subtitulos; 
-    	}
-    public void setSubtitulos(Subtitulo[] subtitulos) { 
-    	this.subtitulos = subtitulos; 
-    	}
+    public Trailer getTrailer() {
+		return trailer;
+	}
+	public void setTrailer(Trailer trailer) {
+		this.trailer = trailer;
+	}
 
-    public Pais[] getPaisesRestringidos() { 
-    	return paisesRestringidos; 
-    	}
-    public void setPaisesRestringidos(Pais[] paisesRestringidos) { this.paisesRestringidos = paisesRestringidos; }
+	public ArrayList<Resenia> getResenias() { 
+    	return resenias; 
+    }
+    public void setResenias(ArrayList<Resenia> resenias) {
+    	this.resenias = resenias; 
+    }
+    
+    public Pais[] getPaisesRestringidos() {
+		return paisesRestringidos;
+	}
 
+	public void setPaisesRestringidos(Pais[] paisesRestringidos) {
+		this.paisesRestringidos = paisesRestringidos;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Objects.hash(director, elenco, genero, resenias, sinopsis, titulo, vistas);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Contenido other = (Contenido) obj;
+		return Objects.equals(director, other.director) && Objects.equals(elenco, other.elenco)
+				&& genero == other.genero && Arrays.equals(paisesRestringidos, other.paisesRestringidos)
+				&& Objects.equals(resenias, other.resenias) && Objects.equals(sinopsis, other.sinopsis)
+				&& Objects.equals(titulo, other.titulo) && vistas == other.vistas;
+	}
+    
     /**
      * Verifica si un contenido está restringido en un país específico.
      * 
@@ -128,19 +165,4 @@ public class Contenido extends Audiovisual {
         return false;
     }
 
-    /**
-     * Implementación del método abstracto de {@link Audiovisual}.
-     * Mediante los índices seleccionados, se determina qué datos buscar en la base
-     * de datos (video, audio y subtítulo) para cargarlos en el reproductor.
-     */
-    @Override
-    public void reproducir(int videoIndex, int audioIndex, int subtituloIndex) {
-        // Aquí iría la lógica real para reproducir con el reproductor
-        System.out.println("Reproduciendo contenido con video " + videoIndex +
-                           ", audio " + audioIndex +
-                           ", subtítulo " + subtituloIndex);
-        /** pusimos eso para no dejar el metodo sin implementar xque tiraba error 
-         
-         */
-    }
 }

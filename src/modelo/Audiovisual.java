@@ -1,116 +1,128 @@
 package modelo;
 
-import java.util.List;
-import enumerativos.Genero;
+import java.util.ArrayList;
+import enumerativos.*;
 
 /**
- * Clase abstracta que representa un contenido audiovisual genérico.
- * Contiene información básica como título, sinopsis, elenco, director, vistas,
- * género y reseñas asociadas por parte de los usuarios.
- * 
- * Esta clase debe ser extendida por tipos concretos de contenido
- * (por ejemplo {@link Contenido}), que deben implementar el método {@link #reproducir(int, int, int)}.
+ * Representa un contenido audiovisual específico dentro de la plataforma.
+ * Extiende de {@link Contenido} e incluye información adicional como
+ * duración, múltiples pistas de video, audio y subtítulos, así como restricciones por país.
  * 
  * @author Tomas
  * @author Boris
- * @version 1.2
+ * @version 1.1
  */
-public abstract class Audiovisual {
-    private int id;
-    private String titulo;
-    private String sinopsis;
-    private List<String> elenco;
-    private String director;
-    private int vistas;
-    private Genero genero;
-    private List<Resena> resenas;
+public class Audiovisual extends Contenido {
+	private int duracion;
+    private String pathDoblaje;
+    private String pathSubtitulo;
+    private String pathVideo;
+    
+
+    private Video[] videosDisponibles;
+    private Audio[] doblajesDisponibles;
+    private Subtitulo[] subtitulosDisponibles;
+    private TipoContenido tipo;
 
     /**
-     * Constructor de la clase Audiovisual.
+     * Constructor de la clase Contenido.
      * 
-     * @param id identificador único del audiovisual
-     * @param titulo título de la obra
+     * @param titulo título del contenido
      * @param sinopsis breve descripción del contenido
-     * @param elenco lista de actores o participantes
+     * @param elenco elenco principal del contenido
      * @param director director del contenido
      * @param vistas cantidad de visualizaciones registradas
      * @param genero género principal del audiovisual
      * @param resenas lista de reseñas realizadas por los usuarios
+     * @param duracion duración total del contenido en minutos
+     * @param pathDoblaje path de la pista de audio
+     * @param pathSubtitulo path del subtítulo
+     * @param pathVideo path del video
+     * @param videosDisponibles conjunto de videos disponibles
+     * @param doblajesDisponibles conjunto de audios disponibles
+     * @param subtitulosDisponibles conjunto de subtítulos disponibles
+     * @param tipo tipo del contenido que representa el audiovisual
      */
-    public Audiovisual(int id, String titulo, String sinopsis, List<String> elenco,
-                       String director, int vistas, Genero genero, List<Resena> resenas) {
-        this.id = id;
-        this.titulo = titulo;
-        this.sinopsis = sinopsis;
-        this.elenco = elenco;
-        this.director = director;
-        this.vistas = vistas;
-        this.genero = genero;
-        this.resenas = resenas;
-    }
+    
+    public Audiovisual(String titulo, String sinopsis, ArrayList<String> elenco, String director, int vistas,
+			Genero genero, ArrayList<Resenia> resenias, Trailer trailer, int duracion, String pathDoblaje,
+			String pathSubtitulo, String pathVideo, Video[] videosDisponibles, Audio[] doblajesDisponibles,
+			Subtitulo[] subtitulosDisponibles, Pais[] paisesRestringidos, TipoContenido tipo) {
+		super(titulo, sinopsis, elenco, director, vistas, genero, resenias, trailer, paisesRestringidos);
+		this.duracion = duracion;
+		this.pathDoblaje = pathDoblaje;
+		this.pathSubtitulo = pathSubtitulo;
+		this.pathVideo = pathVideo;
+		this.videosDisponibles = videosDisponibles;
+		this.doblajesDisponibles = doblajesDisponibles;
+		this.subtitulosDisponibles = subtitulosDisponibles;
+		this.tipo = tipo;
+	}
 
+	// ----- Getters & Setters -----
 
-    public int getId() { return id; }
-    public void setId(int id) { 
-    	this.id = id; 
-    	}
+    public int getDuracion() {
+		return duracion;
+	}
 
-    public String getTitulo() { 
-    	return titulo; 
-    	}
-    public void setTitulo(String titulo) {
-    	this.titulo = titulo;
-    	}
+	public void setDuracion(int duracion) {
+		this.duracion = duracion;
+	}
 
-    public String getSinopsis() { 
-    	return sinopsis;
-    	}
-    public void setSinopsis(String sinopsis) { 
-    	this.sinopsis = sinopsis; 
-    	}
+	public String getPathDoblaje() {
+		return pathDoblaje;
+	}
 
-    public List<String> getElenco() {
-    	return elenco;
-    	}
-    public void setElenco(List<String> elenco) {
-    	this.elenco = elenco; 
-    	}
+	public void setPathDoblaje(String pathDoblaje) {
+		this.pathDoblaje = pathDoblaje;
+	}
 
-    public String getDirector() {
-    	return director; 
-    	}
-    public void setDirector(String director) 
-    { this.director = director;
-    }
+	public String getPathSubtitulo() {
+		return pathSubtitulo;
+	}
 
-    public int getVistas() { 
-    	return vistas; 
-    	}
-    public void setVistas(int vistas) { 
-    	this.vistas = vistas; 
-    	}
+	public void setPathSubtitulo(String pathSubtitulo) {
+		this.pathSubtitulo = pathSubtitulo;
+	}
 
-    public Genero getGenero() {
-    	return genero; 
-    	}
-    public void setGenero(Genero genero) { 
-    	this.genero = genero;
-    	}
+	public String getPathVideo() {
+		return pathVideo;
+	}
 
-    public List<Resena> getResenas() { 
-    	return resenas; 
-    	}
-    public void setResenas(List<Resena> resenas) {
-    	this.resenas = resenas; 
-    	}
+	public void setPathVideo(String pathVideo) {
+		this.pathVideo = pathVideo;
+	}
 
-    /**
-     * Método abstracto que obliga a las subclases a definir cómo se reproducirá
-     * el contenido audiovisual según los índices de video, audio y subtítulos.
-     * 
-     * @param videoIndex índice del video a reproducir
-     * @param audioIndex índice del audio a reproducir
-     * @param subtituloIndex índice del subtítulo a mostrar
-     */
-    public abstract void reproducir(int videoIndex, int audioIndex, int subtituloIndex);
+	public Video[] getVideosDisponibles() {
+		return videosDisponibles;
+	}
+
+	public void setVideosDisponibles(Video[] videosDisponibles) {
+		this.videosDisponibles = videosDisponibles;
+	}
+
+	public Audio[] getDoblajesDisponibles() {
+		return doblajesDisponibles;
+	}
+
+	public void setDoblajesDisponibles(Audio[] doblajesDisponibles) {
+		this.doblajesDisponibles = doblajesDisponibles;
+	}
+
+	public Subtitulo[] getSubtitulosDisponibles() {
+		return subtitulosDisponibles;
+	}
+
+	public void setSubtitulosDisponibles(Subtitulo[] subtitulosDisponibles) {
+		this.subtitulosDisponibles = subtitulosDisponibles;
+	}
+
+	public TipoContenido getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoContenido tipo) {
+		this.tipo = tipo;
+	}
+
 }

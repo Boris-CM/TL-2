@@ -5,10 +5,11 @@ import java.util.ArrayList;
 public class PlataformaStreaming {
 	private Usuario usuario;
 	private ArrayList<Usuario> usuarios;
-	private ArrayList<Contenido> contenidos;
+	private ArrayList<Audiovisual> contenidos;
 	
-	PlataformaStreaming(){}
-
+	public PlataformaStreaming(){}
+	
+	// ----- Getters & Setters -----
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -25,11 +26,11 @@ public class PlataformaStreaming {
 		this.usuarios = usuarios;
 	}
 
-	public ArrayList<Contenido> getContenidos() {
+	public ArrayList<Audiovisual> getContenidos() {
 		return contenidos;
 	}
 
-	public void setContenidos(ArrayList<Contenido> contenidos) {
+	public void setContenidos(ArrayList<Audiovisual> contenidos) {
 		this.contenidos = contenidos;
 	}
 
@@ -51,7 +52,7 @@ public class PlataformaStreaming {
 		return this.getUsuario().getHistorial();
 	}
 	
-	public int findHistorial(ArrayList<Historial> historial, Contenido contenido){
+	public int findHistorial(ArrayList<Historial> historial, Audiovisual contenido){
 		for (int i = 0; i < historial.size(); i++) {
 			Historial actual = historial.get(i);
 	        if (actual.getContenido().getTitulo().compareTo(contenido.getTitulo()) == 0) {

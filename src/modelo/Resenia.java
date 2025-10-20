@@ -19,6 +19,8 @@ public class Resenia {
         this.aprobado = aprobado;
     }
 
+    // ----- Getters & Setters -----
+    
     public int getId() { return id; }
     public int getCalificacion() { return calificacion; }
     public String getComentario() { return comentario; }

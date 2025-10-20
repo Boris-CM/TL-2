@@ -9,45 +9,26 @@ import java.util.ArrayList;
  */
 public class Administrador extends Usuario {
 	
-	/**
-	 * Agrega el Audiovisual al final de la ListaDeRepoduccion
-	 * 
-	 * @param elemento El audiovisual que se desea agregar
-	 * @param lista La listaDeRepoduccion en la que se agregar el elemento
-	 */
-	public void agregarAudiovisual(ListaReproduccion list, Audiovisual elemento) {
-		list.agregarContenido(elemento);
-	}
+	public Administrador() {}
 	
 	/**
-	 * Elimina el Audiovisual de la ListaDeRepoduccion
+	 * Agrega el Contenido al final de la lista
 	 * 
-	 * @param elemento El audiovisual que se desea eliminar
-	 * @param lista La listaDeRepoduccion en la que se elimina el elemento
+	 * @param elemento El Contenido que se desea agregar
+	 * @param lista La lista de contenidos en la que se agregar el elemento
 	 */
-	public void eliminarAudiovisual(ListaReproduccion list, Audiovisual elemento) {
-		list.eliminarContenido(elemento);
-	}
-	
-	/**
-	 * Agrega la listaDeRepoduccion al final de la lista de listaDeRepoduccion
-	 * 
-	 * @param catalogo La lista de listaDeRepoduccion en la que va agregar el elemento
-	 * @param elemento La listaDeRepoduccion que se desea agregar
-	 */
-	public void agregarCatalogo(ArrayList<ListaReproduccion> list, ListaReproduccion elemento) {
+	public void agregarContenido(ArrayList<Contenido> list, Contenido elemento) {
 		list.add(elemento);
 	}
 	
 	/**
-	 * Elimina la listaDeRepoduccionque de la lista de ListaDeRepoduccion
+	 * Elimina el Contenido de la lista
 	 * 
-	 * @param lista La lista de ListaReproduccion en la que se elimina el elemento
-	 * @param elemento La ListaReproduccion que se desea eliminar
-	 * 
-	 * @return {@code true} Si la ListaReproduccion se eliminó
+	 * @param elemento El Contenido que se desea eliminar
+	 * @param lista La lista de contenidos en la que se elimina el elemento
 	 */
-	public boolean eliminarCatalogo(ArrayList<ListaReproduccion> list, ListaReproduccion elemento) {
-		return list.remove(elemento);
+	public void eliminarContenido(ArrayList<Contenido> list, Contenido elemento) {
+		list.remove(elemento);
 	}
+	
 }
