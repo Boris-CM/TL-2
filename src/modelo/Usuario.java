@@ -202,5 +202,4 @@ public class Usuario {
 		this.getHistorial().add(elemento);
 	}
 	
-	
 }

@@ -51,4 +51,29 @@ public class DatosPersonalesDAOjdbc implements DatosPersonalesDAO{
         }
         return lista;
     }
+    
+    public DatosPersonales buscarPorDNI(Connection cx, int dni) {
+        String sql = """
+            SELECT *
+            FROM DATOS_PERSONALES
+            WHERE DNI = ?
+        """;
+        try {
+        	PreparedStatement ps = cx.prepareStatement(sql);
+        	
+            ps.setInt(1, dni);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new DatosPersonales(
+                        rs.getInt("ID"),
+                        rs.getString("NOMBRES"),
+                        rs.getString("APELLIDO"),
+                        rs.getInt("DNI")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Error al buscar usuario: " + e.getMessage());
+        }
+        return null;
+    }
 }

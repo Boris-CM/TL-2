@@ -3,10 +3,12 @@ package servicio;
 import modelo.*;
 import enumerativo.Genero;
 import dao.implJDBC.*;
+import comparador.*;
 
 import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,23 +20,39 @@ public class PlataformaService {
     // --- OPCIÓN 1: REGISTRAR DATOS PERSONALES ---
     public void registrarDatosPersonales(Connection cx, DatosPersonalesDAOjdbc datosDAO) {
         System.out.println("\n=== Registrar Datos Personales ===");
-        System.out.print("Nombres: ");
-        String nombres = sc.nextLine();
+        System.out.print("Nombre: ");
+        String nombre = sc.nextLine();
         System.out.print("Apellido: ");
         String apellido = sc.nextLine();
         System.out.print("DNI: ");
         int dni = sc.nextInt(); sc.nextLine();
+        
+        List<String> errores = new ArrayList<String>();
 
-        if (!nombres.matches("[a-zA-ZáéíóúÁÉÍÓÚ ]+") || !apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚ ]+")) {
-            System.out.println("❌ Error: nombre o apellido con caracteres inválidos.");
-            return;
+        //if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚ ]+") || !apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚ ]+")) {
+        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚ]+( [a-zA-ZáéíóúÁÉÍÓÚ]+)*") || !apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚ]+( [a-zA-ZáéíóúÁÉÍÓÚ]+)*")) {
+        	errores.add("❌ Error: Nombre o Apellido con caracteres inválidos.");
+        }
+        
+        //No debe de haber un DNI igual
+        String dniStr = String.valueOf(dni);
+        if (dniStr.length() != 11 || datosDAO.buscarPorDNI(cx, dni) != null) {
+        	errores.add("❌ Error: DNI inválido.");
+        }
+        
+        //Si hay errores los muestra por pantalla
+        if (errores.size() != 0) {
+        	for (int i = 0; i < errores.size(); i++) {
+                System.out.println(errores.get(i));
+            }
+        	return;
         }
 
         System.out.println("\nDatos ingresados:");
-        System.out.println(nombres + " " + apellido + " - DNI: " + dni);
+        System.out.println(nombre + " " + apellido + " - DNI: " + dni);
         System.out.print("¿Confirmar registro? (s/n): ");
         if (sc.nextLine().equalsIgnoreCase("s")) {
-        	datosDAO.insertar(cx, nombres, apellido, dni);
+        	datosDAO.insertar(cx, nombre, apellido, dni);
         } else {
             System.out.println("Registro cancelado.");
         }
@@ -58,11 +76,12 @@ public class PlataformaService {
         System.out.print("Número: ");
         int num = sc.nextInt(); sc.nextLine();
         if (num < 1 || num > personas.size()) {
-            System.out.println("❌ Número inválido.");
+            System.out.println("❌ Error: Número inválido.");
             return;
         }
 
         DatosPersonales seleccionada = personas.get(num - 1);
+        List<String> errores = new ArrayList<String>();
 
         System.out.print("Nombre de usuario: ");
         String nombreUsuario = sc.nextLine();
@@ -70,12 +89,23 @@ public class PlataformaService {
         System.out.print("Email: ");
         String email = sc.nextLine();
         if (!email.matches("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-            System.out.println("❌ Formato de email inválido.");
-            return;
+        	errores.add("❌ Error: Formato de email inválido.");
         }
 
+        //La contraseña no puede estar vacio, ni contener espacios
         System.out.print("Contraseña: ");
         String contrasenia = sc.nextLine();
+        if (!contrasenia.matches("^[^\\s]+$")) {
+            errores.add("❌ Error: La contraseña no puede estar vacía ni contener espacios.");
+        }
+        
+        //Si hay errores los muestra por pantalla
+        if (errores.size() != 0) {
+        	for (int i = 0; i < errores.size(); i++) {
+                System.out.println(errores.get(i));
+            }
+        	return;
+        }
 
         System.out.println("\nUsuario: " + nombreUsuario + " (" + email + ")");
         System.out.print("¿Confirmar registro? (s/n): ");
@@ -158,6 +188,9 @@ public class PlataformaService {
 
         System.out.println("Ordenar por: 1) Título  2) Género  3) Duración");
         int op = sc.nextInt(); sc.nextLine();
+        
+        //pelis.sort(new ComparadorPorGenero());
+        //
 
         pelis.sort((p1, p2) -> switch (op) {
             case 2 -> p1.getGenero().name().compareToIgnoreCase(p2.getGenero().name());
@@ -168,7 +201,7 @@ public class PlataformaService {
         pelis.forEach(System.out::println);
     }
 
-    // --- OPCIÓN 6: REGISTRAR RESEÑA ---
+    // --- OPCIÓN 6: REGISTRAR RESENIA ---
     public void registrarResenia(Connection cx, UsuarioDAOjdbc usuarioDAO, PeliculaDAOjdbc peliculaDAO, ReseniaDAOjdbc reseniaDAO) {
         System.out.println("\n=== Registrar Reseña ===");
         System.out.print("Usuario: ");

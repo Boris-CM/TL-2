@@ -9,4 +9,6 @@ public interface DatosPersonalesDAO {
     public void insertar(Connection cx, String nombre, String apellido, int dni);
 
     public List<DatosPersonales> listarTodos(Connection cx);
+    
+    public DatosPersonales buscarPorDNI(Connection cx, int dni);
 }
