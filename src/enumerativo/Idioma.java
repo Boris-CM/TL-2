@@ -1,4 +1,4 @@
-package enumerativos;
+package enumerativo;
 
 public enum Idioma {
 	ESPANIOL_LATINO,

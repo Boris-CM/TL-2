@@ -1,14 +1,20 @@
-import dao.ConexionBD;
+import conexion.ConexionBD;
+import dao.FactoryDAO;
 import servicio.PlataformaService;
+
+import java.sql.Connection;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ConexionBD.crearTablas();
+    	Connection cx = ConexionBD.getInstancia().getConexion();
+    	ConexionBD.getInstancia().crearTablas();
+        FactoryDAO factory = new FactoryDAO();
         PlataformaService servicio = new PlataformaService();
         Scanner sc = new Scanner(System.in);
         int opcion;
 
+        // --- MENÚ PRINCIPAL ---
         do {
             System.out.println("\n=== Plataforma Streaming ===");
             System.out.println("1. Registrar Datos Personales");
@@ -23,10 +29,21 @@ public class Main {
             opcion = sc.nextInt();
             sc.nextLine();
 
-            servicio.ejecutarOpcion(opcion);
+            switch (opcion) {
+		        case 1 -> servicio.registrarDatosPersonales(cx, factory.getDatosDAO());
+		        case 2 -> servicio.registrarUsuario(cx, factory.getDatosDAO(), factory.getUsuarioDAO());
+		        case 3 -> servicio.registrarPelicula(cx, factory.getPeliculaDAO());
+		        case 4 -> servicio.listarUsuarios(cx, factory.getUsuarioDAO());
+		        case 5 -> servicio.listarPeliculas(cx, factory.getPeliculaDAO());
+		        case 6 -> servicio.registrarResenia(cx, factory.getUsuarioDAO(), factory.getPeliculaDAO(), factory.getReseniaDAO());
+		        case 7 -> servicio.aprobarResenia(cx, factory.getReseniaDAO());
+		        case 0 -> System.out.println("Saliendo...");
+		        default -> System.out.println("⚠️ Opción inválida.");
+		    }
         } while (opcion != 0);
 
         sc.close();
+        ConexionBD.getInstancia().desconectar();
         System.out.println("Fin del programa.");
     }
 }

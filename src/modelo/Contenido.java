@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-import enumerativos.Genero;
-import enumerativos.Pais;
+import enumerativo.Genero;
+import enumerativo.Pais;
 
 /**
  * Clase abstracta que representa un contenido audiovisual genérico.
@@ -20,6 +20,8 @@ import enumerativos.Pais;
  * @version 1.2
  */
 public abstract class Contenido {
+	
+	private int id;
     private String titulo;
     private String sinopsis;
     private ArrayList<String> elenco;
@@ -30,6 +32,14 @@ public abstract class Contenido {
     private Trailer trailer;
     private Pais[] paisesRestringidos;
 
+    public Contenido(int id, String titulo, String sinopsis, String director, Genero genero) {
+    	this.id = id;
+        this.titulo = titulo;
+        this.sinopsis = sinopsis;
+        this.director = director;
+        this.genero = genero;
+    }
+    
     /**
      * Constructor de la clase Audiovisual.
      * 
@@ -44,9 +54,10 @@ public abstract class Contenido {
      * @param paisesRestringidos Lista de los paises en donde es restringido
      */
     public Contenido(
-    		String titulo, String sinopsis, ArrayList<String> elenco,
+    		int id, String titulo, String sinopsis, ArrayList<String> elenco,
             String director, int vistas, Genero genero, ArrayList<Resenia> resenias,
             Trailer trailer, Pais[] paisesRestringidos) {
+    	this.id = id;
         this.titulo = titulo;
         this.sinopsis = sinopsis;
         this.elenco = elenco;
@@ -59,6 +70,14 @@ public abstract class Contenido {
     }
 
     // ----- Getters & Setters -----
+    
+    public int getId() { 
+    	return id; 
+    }
+
+	public void setId(int id) {
+    	this.id = id;
+    }
     
 	public String getTitulo() { 
     	return titulo; 

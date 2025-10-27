@@ -1,6 +1,6 @@
 package modelo;
 
-import enumerativos.Idioma;
+import enumerativo.Idioma;
 
 public class Subtitulo {
 	private int datos;

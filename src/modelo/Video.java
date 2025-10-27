@@ -1,6 +1,6 @@
 package modelo;
 
-import enumerativos.Calidad;
+import enumerativo.Calidad;
 
 public class Video {
 	private int frame;

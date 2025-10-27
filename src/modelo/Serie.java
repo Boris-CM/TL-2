@@ -2,8 +2,8 @@ package modelo;
 
 import java.util.ArrayList;
 
-import enumerativos.Genero;
-import enumerativos.Pais;
+import enumerativo.Genero;
+import enumerativo.Pais;
 
 public class Serie extends Contenido  {
 	private int cantTemporadas;
@@ -24,11 +24,11 @@ public class Serie extends Contenido  {
     
 
     public Serie(
-    	String titulo, String sinopsis, ArrayList<String> elenco, String director, int vistas,
+    	int id, String titulo, String sinopsis, ArrayList<String> elenco, String director, int vistas,
 		Genero genero, ArrayList<Resenia> resenias, Trailer trailer, Pais[] paisesRestringidos,
 		int cantTemporadas, ArrayList<Temporada> temporadas
 	) {
-		super(titulo, sinopsis, elenco, director, vistas, genero, resenias, trailer, paisesRestringidos);
+		super(id, titulo, sinopsis, elenco, director, vistas, genero, resenias, trailer, paisesRestringidos);
 		this.cantTemporadas = cantTemporadas;
 		this.temporadas = temporadas;
 	}

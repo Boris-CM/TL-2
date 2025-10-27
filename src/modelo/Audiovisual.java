@@ -1,7 +1,8 @@
 package modelo;
 
 import java.util.ArrayList;
-import enumerativos.*;
+
+import enumerativo.*;
 
 /**
  * Representa un contenido audiovisual específico dentro de la plataforma.
@@ -13,7 +14,7 @@ import enumerativos.*;
  * @version 1.1
  */
 public class Audiovisual extends Contenido {
-	private int duracion;
+	private double duracion;
     private String pathDoblaje;
     private String pathSubtitulo;
     private String pathVideo;
@@ -23,6 +24,12 @@ public class Audiovisual extends Contenido {
     private Audio[] doblajesDisponibles;
     private Subtitulo[] subtitulosDisponibles;
     private TipoContenido tipo;
+    
+    public Audiovisual(int id, String titulo, String sinopsis, String director, Genero genero, double duracion, TipoContenido tipo) {
+		super(id, titulo, sinopsis, director, genero);
+		this.duracion = duracion;
+		this.tipo = tipo;
+	}
 
     /**
      * Constructor de la clase Contenido.
@@ -44,11 +51,11 @@ public class Audiovisual extends Contenido {
      * @param tipo tipo del contenido que representa el audiovisual
      */
     
-    public Audiovisual(String titulo, String sinopsis, ArrayList<String> elenco, String director, int vistas,
-			Genero genero, ArrayList<Resenia> resenias, Trailer trailer, int duracion, String pathDoblaje,
+    public Audiovisual(int id, String titulo, String sinopsis, ArrayList<String> elenco, String director, int vistas,
+			Genero genero, ArrayList<Resenia> resenias, Trailer trailer, double duracion, String pathDoblaje,
 			String pathSubtitulo, String pathVideo, Video[] videosDisponibles, Audio[] doblajesDisponibles,
 			Subtitulo[] subtitulosDisponibles, Pais[] paisesRestringidos, TipoContenido tipo) {
-		super(titulo, sinopsis, elenco, director, vistas, genero, resenias, trailer, paisesRestringidos);
+		super(id, titulo, sinopsis, elenco, director, vistas, genero, resenias, trailer, paisesRestringidos);
 		this.duracion = duracion;
 		this.pathDoblaje = pathDoblaje;
 		this.pathSubtitulo = pathSubtitulo;
@@ -61,11 +68,11 @@ public class Audiovisual extends Contenido {
 
 	// ----- Getters & Setters -----
 
-    public int getDuracion() {
+    public double getDuracion() {
 		return duracion;
 	}
 
-	public void setDuracion(int duracion) {
+	public void setDuracion(double duracion) {
 		this.duracion = duracion;
 	}
 

@@ -1,4 +1,4 @@
-package enumerativos;
+package enumerativo;
 
 public enum Calidad {
 	P240(240),

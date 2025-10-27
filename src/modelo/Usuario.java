@@ -3,7 +3,7 @@ package modelo;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import enumerativos.*;
+import enumerativo.*;
 
 /**
  * La clase Usuario implementa la logica que sea nesesaria para manipular todo lo correspondiente a los usuarios
@@ -14,9 +14,8 @@ import enumerativos.*;
 public class Usuario {
 
 	private int id;
+	private DatosPersonales datos;
 	private String nombreUsuario;
-	private String nombre;
-	private String apellido;
 	private String email;
 	private String contrasenia;
 	private ArrayList<Genero> generosFavoritos;
@@ -25,17 +24,24 @@ public class Usuario {
 	private Estado estado;
 	private ArrayList<Contenido> favoritos;
 	private ArrayList<Historial> historial;
-	private DatosPersonales datos;
 	
 	//Constructor
 	public Usuario() {}
-
-	public Usuario(int id, String nombre, String apellido, String email, String contrasenia,
-			ArrayList<Genero> generosFavoritos, Pais pais, Idioma idioma, Estado estado,
-			ArrayList<Contenido> favoritos, ArrayList<Historial> historial, DatosPersonales datos) {
+	
+	public Usuario(int id, DatosPersonales datos, String nombreUsuario, String email, String contrasenia) {
 		this.id = id;
-		this.nombre = nombre;
-		this.apellido = apellido;
+		this.datos = datos;
+		this.nombreUsuario = nombreUsuario;
+		this.email = email;
+		this.contrasenia = contrasenia;
+	}
+
+	public Usuario(int id, DatosPersonales datos, String nombreUsuario, String email, String contrasenia,
+			ArrayList<Genero> generosFavoritos, Pais pais, Idioma idioma, Estado estado,
+			ArrayList<Contenido> favoritos, ArrayList<Historial> historial) {
+		this.id = id;
+		this.datos = datos;
+		this.nombreUsuario = nombreUsuario;
 		this.email = email;
 		this.contrasenia = contrasenia;
 		this.generosFavoritos = generosFavoritos;
@@ -44,7 +50,6 @@ public class Usuario {
 		this.estado = estado;
 		this.favoritos = favoritos;
 		this.historial = historial;
-		this.datos = datos;
 	}
 
 	// ----- Getters & Setters -----
@@ -60,18 +65,6 @@ public class Usuario {
 	}
 	public void setNombreUsuario(String nombreUsuario) {
 		this.nombreUsuario = nombreUsuario;
-	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getApellido() {
-		return apellido;
-	}
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
 	}
 	public String getEmail() {
 		return email;
@@ -127,7 +120,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email
+		return "Usuario [id=" + id + ", datos=" + datos + ", nombreUsuario=" + nombreUsuario + ", email=" + email
 				+ ", contrasenia=" + contrasenia + ", generosFavoritos=" + generosFavoritos + ", pais=" + pais
 				+ ", idioma=" + idioma + ", estado=" + estado + ", favoritos=" + favoritos + ", historial=" + historial
 				+ "]";
@@ -135,8 +128,8 @@ public class Usuario {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(apellido, contrasenia, email, estado, favoritos, generosFavoritos, historial, id, idioma,
-				nombre, pais);
+		return Objects.hash(contrasenia, datos, email, estado, favoritos, generosFavoritos, historial, id, idioma,
+				nombreUsuario, pais);
 	}
 
 	@Override
@@ -148,12 +141,12 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		return Objects.equals(apellido, other.apellido) && Objects.equals(contrasenia, other.contrasenia)
+		return Objects.equals(contrasenia, other.contrasenia) && Objects.equals(datos, other.datos)
 				&& Objects.equals(email, other.email) && estado == other.estado
 				&& Objects.equals(favoritos, other.favoritos)
 				&& Objects.equals(generosFavoritos, other.generosFavoritos)
 				&& Objects.equals(historial, other.historial) && id == other.id && idioma == other.idioma
-				&& Objects.equals(nombre, other.nombre) && pais == other.pais;
+				&& Objects.equals(nombreUsuario, other.nombreUsuario) && pais == other.pais;
 	}
 
 	/**
