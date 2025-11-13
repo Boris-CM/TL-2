@@ -184,4 +184,12 @@ public abstract class Contenido {
         return false;
     }
 
+	@Override
+	public String toString() {
+		return "id=" + id + ", titulo=" + titulo + ", sinopsis=" + sinopsis
+				+ ", director=" + director + ", genero=" + genero;
+	}
+    
+    
+
 }

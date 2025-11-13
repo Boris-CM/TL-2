@@ -4,15 +4,15 @@ public class DatosPersonales {
     private int id;
     private String nombres;
     private String apellido;
-    private int dni;
+    private long dni;
 
-    public DatosPersonales(String nombres, String apellido, int dni) {
+    public DatosPersonales(String nombres, String apellido, long dni) {
         this.nombres = nombres;
         this.apellido = apellido;
         this.dni = dni;
     }
 
-    public DatosPersonales(int id, String nombres, String apellido, int dni) {
+    public DatosPersonales(int id, String nombres, String apellido, long dni) {
         this(nombres, apellido, dni);
         this.id = id;
     }
@@ -21,7 +21,7 @@ public class DatosPersonales {
     public int getId() { return id; }
     public String getNombres() { return nombres; }
     public String getApellido() { return apellido; }
-    public int getDni() { return dni; }
+    public long getDni() { return dni; }
 
     @Override
     public String toString() {

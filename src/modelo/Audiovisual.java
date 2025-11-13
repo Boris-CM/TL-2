@@ -132,4 +132,14 @@ public class Audiovisual extends Contenido {
 		this.tipo = tipo;
 	}
 
+	@Override
+	public String toString() {
+		return "Audiovisual ["+ super.toString() +", duracion=" + duracion + ", tipo=" + tipo + ", pathDoblaje="
+				+ pathDoblaje + ", pathSubtitulo=" + pathSubtitulo + ", pathVideo=" + pathVideo + "]";
+	}
+
+	
+	
+	
+
 }

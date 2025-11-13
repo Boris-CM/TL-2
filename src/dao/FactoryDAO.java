@@ -1,6 +1,6 @@
 package dao;
 
-import dao.implJDBC.*;
+import dao.implementacion.*;
 
 public class FactoryDAO {
     private final DatosPersonalesDAOjdbc datosDAO = new DatosPersonalesDAOjdbc();

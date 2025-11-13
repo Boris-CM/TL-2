@@ -2,8 +2,8 @@ package servicio;
 
 import modelo.*;
 import enumerativo.Genero;
-import dao.implJDBC.*;
 import comparador.*;
+import dao.implementacion.*;
 
 import java.sql.Connection;
 import java.time.LocalDateTime;
@@ -25,7 +25,7 @@ public class PlataformaService {
         System.out.print("Apellido: ");
         String apellido = sc.nextLine();
         System.out.print("DNI: ");
-        int dni = sc.nextInt(); sc.nextLine();
+        long dni = sc.nextLong(); sc.nextLine();
         
         List<String> errores = new ArrayList<String>();
 
@@ -169,10 +169,13 @@ public class PlataformaService {
         System.out.println("Ordenar por: 1) NombreUsuario  2) Email");
         int op = sc.nextInt(); sc.nextLine();
 
-        usuarios.sort((u1, u2) -> switch (op) {
-            case 2 -> u1.getEmail().compareToIgnoreCase(u2.getEmail());
-            default -> u1.getNombreUsuario().compareToIgnoreCase(u2.getNombreUsuario());
-        });
+        switch (op) {
+        	case 1 : usuarios.sort(new ComparadorPorNombreDeUsuario());
+        		break;
+            case 2 : usuarios.sort(new ComparadorPorEmail());
+            	break;
+            default : System.out.println("Error: Orden no identidicado");
+        };
 
         usuarios.forEach(System.out::println);
     }
@@ -192,11 +195,15 @@ public class PlataformaService {
         //pelis.sort(new ComparadorPorGenero());
         //
 
-        pelis.sort((p1, p2) -> switch (op) {
-            case 2 -> p1.getGenero().name().compareToIgnoreCase(p2.getGenero().name());
-            case 3 -> Double.compare(p1.getDuracion(), p2.getDuracion());
-            default -> p1.getTitulo().compareToIgnoreCase(p2.getTitulo());
-        });
+        switch (op) {
+    	case 1 : pelis.sort(new ComparadorPorTitulo());
+    		break;
+        case 2 : pelis.sort(new ComparadorPorGenero());
+        	break;
+        case 3 : pelis.sort(new ComparadorPorDuracion());
+    		break;
+        default : System.out.println("Error: Orden no identidicado");
+    };
 
         pelis.forEach(System.out::println);
     }

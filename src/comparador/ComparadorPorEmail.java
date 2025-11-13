@@ -3,7 +3,7 @@ package comparador;
 import java.util.Comparator;
 import modelo.Usuario;
 
-public class CompararPorEmail implements Comparator<Usuario>{
+public class ComparadorPorEmail implements Comparator<Usuario>{
 
 	public int compare(Usuario p1, Usuario p2) {
 		if (!(p1.getEmail().equals(p2.getEmail())))

@@ -1,4 +1,4 @@
-package dao.implJDBC;
+package dao.implementacion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,14 +12,14 @@ import dao.DatosPersonalesDAO;
 import modelo.DatosPersonales;
 
 public class DatosPersonalesDAOjdbc implements DatosPersonalesDAO{
-	public void insertar(Connection cx, String nombre, String apellido, int dni) {
+	public void insertar(Connection cx, String nombre, String apellido, long dni) {
         String sql = "INSERT INTO DATOS_PERSONALES (NOMBRES, APELLIDO, DNI) VALUES (?, ?, ?)";
         try {
         	PreparedStatement ps = cx.prepareStatement(sql);
         	
             ps.setString(1, nombre);
             ps.setString(2, apellido);
-            ps.setInt(3, dni);
+            ps.setLong(3, dni);
             ps.executeUpdate();
             System.out.println("✅ Datos personales guardados correctamente.");
 
@@ -52,7 +52,7 @@ public class DatosPersonalesDAOjdbc implements DatosPersonalesDAO{
         return lista;
     }
     
-    public DatosPersonales buscarPorDNI(Connection cx, int dni) {
+    public DatosPersonales buscarPorDNI(Connection cx, long dni) {
         String sql = """
             SELECT *
             FROM DATOS_PERSONALES
@@ -61,7 +61,7 @@ public class DatosPersonalesDAOjdbc implements DatosPersonalesDAO{
         try {
         	PreparedStatement ps = cx.prepareStatement(sql);
         	
-            ps.setInt(1, dni);
+            ps.setLong(1, dni);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new DatosPersonales(

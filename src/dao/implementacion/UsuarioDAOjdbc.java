@@ -1,4 +1,4 @@
-package dao.implJDBC;
+package dao.implementacion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -48,7 +48,7 @@ public class UsuarioDAOjdbc implements UsuarioDAO{
                 		resul.getInt("DP_ID"),
                 		resul.getString("NOMBRES"),
                 		resul.getString("APELLIDO"),
-                		resul.getInt("DNI")
+                		resul.getLong("DNI")
                 );
 
                 Usuario u = new Usuario(
