@@ -3,16 +3,27 @@ package ventana;
 import java.awt.*;
 import javax.swing.*;
 
+import conexion.ConexionBD;
+import dao.FactoryDAO;
+
+import tablas.TablasBD;
+import java.sql.Connection;
+
+
 public class Main extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
+	
+	private FactoryDAO factory;
 	
 	private Panel panelDer;
 	private JPanel panelIzq;
 	private CardLayout cardLayout;
 	//private final double tamanioVentana= 40;
 	
-	public Main() {
+	public Main(FactoryDAO factory) {
+		this.factory = factory;
+		cargarFuenteRoboto();
 		inicializarComponentes();
 	}
 	
@@ -27,23 +38,23 @@ public class Main extends JFrame{
 		panelIzq.setLayout(cardLayout);
 
         // Agregamos las ventanas al contenedor
-		panelIzq.add(new PanelLogin(this), "LOGIN");
-		panelIzq.add(new PanelRegistro(this), "REGISTRO");
+		panelIzq.add(new PanelLogin(this, this.factory.getUsuarioDAO()), "LOGIN");
+		panelIzq.add(new PanelRegistro(this, this.factory.getDatosDAO(), this.factory.getUsuarioDAO()), "REGISTRO");
 		
         
         GridBagConstraints c = new GridBagConstraints();
 		
-		// ===== Panel Izquierdo (30%) =====
+		// ===== Panel Izquierdo (60%) =====
         c.gridx = 0;
         c.gridy = 0;
-        c.weightx = 0.8;     // 80% del espacio horizontal
+        c.weightx = 0.6;     // 60% del espacio horizontal
         c.weighty = 1.0;     // ocupa toda la altura
         c.fill = GridBagConstraints.BOTH;
         add(panelDer, c);
 
-        // ===== Panel Derecho (70%) =====
+        // ===== Panel Derecho (40%) =====
         c.gridx = 1;
-        c.weightx = 0.2;     // 20% del espacio horizontal
+        c.weightx = 0.4;     // 40% del espacio horizontal
         add(panelIzq, c);
 
 		
@@ -61,12 +72,47 @@ public class Main extends JFrame{
     public void mostrarRegistro() {
         cardLayout.show(panelIzq, "REGISTRO");
     }
+    
+    private void cargarFuenteRoboto() {
+        try {
+            Font roboto = Font.createFont(
+                    Font.TRUETYPE_FONT,
+                    getClass().getResourceAsStream("/fuente/Roboto-Regular.ttf")
+            ).deriveFont(14f);
+
+            UIManager.put("Button.font", roboto);
+            UIManager.put("Label.font", roboto);
+            UIManager.put("TextField.font", roboto);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 	
 	
-	public static void main(String[] args) {
+    public static void main(String[] args) {
+
+        // Inicializar la BD
+        Connection cx = ConexionBD.getInstancia().getConexion();
+        TablasBD tablas = new TablasBD();
+        FactoryDAO factory = new FactoryDAO();
+
+        try {
+            tablas.crearTablas(cx);
+        } catch(Exception e) {
+            System.out.println("Error: "+ e);
+        }
+
+        // Lanzar la GUI
         SwingUtilities.invokeLater(() -> {
-            new Main().setVisible(true);
+            new Main(factory).setVisible(true);
         });
+
+        // Al finalizar todo el programa, registrás un shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Cerrando conexión...");
+            ConexionBD.getInstancia().desconectar();
+        }));
     }
 
 }

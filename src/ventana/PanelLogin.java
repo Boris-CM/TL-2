@@ -1,76 +1,74 @@
 package ventana;
 import javax.swing.*;
+
+import dao.implementacion.UsuarioDAOjdbc;
+
 import java.awt.*;
+import java.awt.event.*;
 
 public class PanelLogin extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 
-    private JTextField campoEmail;
-    private JPasswordField campoContrasenia;
-    private JButton btnIngresar;
+	private JPanel norte;
+	private JPanel centro;
+	private JPanel sur;
+
+	private JLabel titulo;
+	private JLabel label;
     private JButton btnRegistrar;
 
-    public PanelLogin(Main mainWindow) {
-
-        inicializarComponentes();
+    public PanelLogin(Main mainWindow, UsuarioDAOjdbc usuarioDAO) {
+        inicializarComponentes(mainWindow, usuarioDAO);
         configurarEventos(mainWindow);
     }
 
-    private void inicializarComponentes() {
-    	setLayout(new GridBagLayout());
+    private void inicializarComponentes(Main mainWindow, UsuarioDAOjdbc usuarioDAO) {
+    	setLayout(new BorderLayout());
     	
-    	campoEmail = new JTextField(15);
-        campoContrasenia = new JPasswordField(15);
+    	norte = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+    	centro = new FormularioLogin(mainWindow, usuarioDAO);
+    	sur = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        btnIngresar = new JButton("Ingresar");
-        btnRegistrar = new JButton("Registrarse");
+    	titulo = new JLabel("Inicio de sesion");
+    	titulo.setFont(new Font("Roboto", Font.BOLD, 26));
+    	titulo.setForeground(new Color(30, 30, 30));
+    	
+    	label = new JLabel("¿Aun no sos usuario?");
+    	
+    	btnRegistrar = new JButton("Registrate");
+    	btnRegistrar.setBorderPainted(false);
+    	btnRegistrar.setOpaque(false);
+    	btnRegistrar.setContentAreaFilled(false);
+    	btnRegistrar.setForeground(Color.BLUE);
+    	btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    	btnRegistrar.setFocusPainted(false);
 
-        
-        GridBagConstraints c = new GridBagConstraints(); //Configuración
-        c.insets = new Insets(10, 10, 10, 10);
-        c.fill = GridBagConstraints.HORIZONTAL;
+    	norte.add(titulo);
+    	sur.add(label);
+    	sur.add(btnRegistrar);
 
-        c.gridx = 0; c.gridy = 0;
-        add(new JLabel("Email:"), c);
-
-        c.gridx = 1; c.gridy = 0;
-        add(campoEmail, c);
-
-        c.gridx = 0; c.gridy = 1;
-        add(new JLabel("Contraseña:"), c);
-
-        c.gridx = 1; c.gridy = 1;
-        add(campoContrasenia, c);
-
-        c.gridx = 0; c.gridy = 2;
-        add(btnIngresar, c);
-        c.gridx = 1; c.gridy = 2;
-        add(btnRegistrar, c);
+    	add(norte, BorderLayout.NORTH);
+    	add(centro, BorderLayout.CENTER);
+    	add(sur, BorderLayout.SOUTH);
     }
 
     private void configurarEventos(Main mainWindow) {
-        btnIngresar.addActionListener(e -> {
-            String email = campoEmail.getText();
-            String contrasenia = new String(campoContrasenia.getPassword());
 
-            if (email.isEmpty() || contrasenia.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe completar Email y Contraseña");
-                return;
+    	btnRegistrar.addActionListener(e -> mainWindow.mostrarRegistro());
+        
+    	btnRegistrar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            	btnRegistrar.setForeground(new Color(60, 0, 200));
             }
 
-            JOptionPane.showMessageDialog(this, "Intentando ingresar...");
-            limpiarCampos();
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	btnRegistrar.setForeground(Color.BLUE);
+            }
         });
-
-        btnRegistrar.addActionListener(e -> {
-        	mainWindow.mostrarRegistro();
-        });
-    }
-    
-    public void limpiarCampos() {
-    	campoEmail.setText("");
-    	campoContrasenia.setText("");
+        
     }
 
 }

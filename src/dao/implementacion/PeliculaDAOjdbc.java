@@ -1,6 +1,5 @@
 package dao.implementacion;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,16 +7,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import conexion.ConexionBD;
 import dao.PeliculaDAO;
 import enumerativo.Genero;
 import enumerativo.TipoContenido;
 import modelo.Audiovisual;
 
 public class PeliculaDAOjdbc implements PeliculaDAO{
-	public void insertar(Connection cx, String titulo, String director, String resumen, double duracion, String genero) {
+	public void insertar(String titulo, String director, String resumen, double duracion, String genero) {
         String sql = "INSERT INTO PELICULA (GENERO, TITULO, RESUMEN, DIRECTOR, DURACION) VALUES (?, ?, ?, ?, ?)";
         try {
-        	PreparedStatement ps = cx.prepareStatement(sql);
+        	PreparedStatement ps = ConexionBD.getInstancia().getConexion().prepareStatement(sql);
 
             ps.setString(1, genero);
             ps.setString(2, titulo);
@@ -32,11 +32,11 @@ public class PeliculaDAOjdbc implements PeliculaDAO{
         }
     }
 
-    public List<Audiovisual> listarTodas(Connection cx) {
+    public List<Audiovisual> listarTodas() {
         List<Audiovisual> lista = new ArrayList<Audiovisual>();
         String sql = "SELECT * FROM PELICULA";
         try {
-        	Statement st = cx.createStatement();
+        	Statement st = ConexionBD.getInstancia().getConexion().createStatement();
             ResultSet rs = st.executeQuery(sql);
         	
             while (rs.next()) {

@@ -1,6 +1,5 @@
 package dao.implementacion;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,16 +7,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import conexion.ConexionBD;
 import dao.UsuarioDAO;
 import modelo.DatosPersonales;
 import modelo.Usuario;
 
 public class UsuarioDAOjdbc implements UsuarioDAO{
 	
-	public void insertar(Connection cx, String nombreUsuario, String email, String contrasenia, int idDP) {
+	public void insertar(String nombreUsuario, String email, String contrasenia, int idDP) {
         String sql = "INSERT INTO USUARIO (NOMBRE_USUARIO, EMAIL, CONTRASENIA, ID_DATOS_PERSONALES) VALUES (?, ?, ?, ?)";
         try {
-        	PreparedStatement ps = cx.prepareStatement(sql);
+        	PreparedStatement ps = ConexionBD.getInstancia().getConexion().prepareStatement(sql);
         	
         	ps.setString(1, nombreUsuario);
         	ps.setString(2, email);
@@ -31,7 +31,7 @@ public class UsuarioDAOjdbc implements UsuarioDAO{
         }
     }
 
-    public List<Usuario> listarTodos(Connection cx) {
+    public List<Usuario> listarTodos() {
         List<Usuario> lista = new ArrayList<Usuario>();
         String sql = """
             SELECT U.ID, U.NOMBRE_USUARIO, U.EMAIL, U.CONTRASENIA,
@@ -40,7 +40,7 @@ public class UsuarioDAOjdbc implements UsuarioDAO{
             JOIN DATOS_PERSONALES D ON U.ID_DATOS_PERSONALES = D.ID
             """;
         try {
-        	Statement sent = cx.createStatement();
+        	Statement sent = ConexionBD.getInstancia().getConexion().createStatement();
         	ResultSet resul = sent.executeQuery(sql);
 
             while (resul.next()) {
@@ -70,18 +70,18 @@ public class UsuarioDAOjdbc implements UsuarioDAO{
         return lista;
     }
 
-    public Usuario buscarPorCredenciales(Connection cx, String usuario, String contrasenia) {
+    public Usuario buscarPorCredenciales(String email, String contrasenia) {
         String sql = """
             SELECT U.ID, U.NOMBRE_USUARIO, U.EMAIL, U.CONTRASENIA,
                    D.ID AS DP_ID, D.NOMBRES, D.APELLIDO, D.DNI
             FROM USUARIO U
             JOIN DATOS_PERSONALES D ON U.ID_DATOS_PERSONALES = D.ID
-            WHERE U.NOMBRE_USUARIO = ? AND U.CONTRASENIA = ?
+            WHERE U.EMAIL = ? AND U.CONTRASENIA = ?
         """;
         try {
-        	PreparedStatement ps = cx.prepareStatement(sql);
+        	PreparedStatement ps = ConexionBD.getInstancia().getConexion().prepareStatement(sql);
         	
-            ps.setString(1, usuario);
+            ps.setString(1, email);
             ps.setString(2, contrasenia);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {

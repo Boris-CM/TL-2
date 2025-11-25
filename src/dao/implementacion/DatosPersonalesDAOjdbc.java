@@ -1,6 +1,5 @@
 package dao.implementacion;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,14 +7,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import conexion.ConexionBD;
 import dao.DatosPersonalesDAO;
 import modelo.DatosPersonales;
 
 public class DatosPersonalesDAOjdbc implements DatosPersonalesDAO{
-	public void insertar(Connection cx, String nombre, String apellido, long dni) {
+	
+	public void insertar(String nombre, String apellido, long dni) {
         String sql = "INSERT INTO DATOS_PERSONALES (NOMBRES, APELLIDO, DNI) VALUES (?, ?, ?)";
         try {
-        	PreparedStatement ps = cx.prepareStatement(sql);
+        	PreparedStatement ps = ConexionBD.getInstancia().getConexion().prepareStatement(sql);
         	
             ps.setString(1, nombre);
             ps.setString(2, apellido);
@@ -28,11 +29,11 @@ public class DatosPersonalesDAOjdbc implements DatosPersonalesDAO{
         }
     }
 
-    public List<DatosPersonales> listarTodos(Connection cx) {
+    public List<DatosPersonales> listarTodos() {
         List<DatosPersonales> lista = new ArrayList<DatosPersonales>();
         String sql = "SELECT * FROM DATOS_PERSONALES";
         try {
-        	Statement st = cx.createStatement();
+        	Statement st = ConexionBD.getInstancia().getConexion().createStatement();
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
@@ -52,14 +53,14 @@ public class DatosPersonalesDAOjdbc implements DatosPersonalesDAO{
         return lista;
     }
     
-    public DatosPersonales buscarPorDNI(Connection cx, long dni) {
+    public DatosPersonales buscarPorDNI(long dni) {
         String sql = """
             SELECT *
             FROM DATOS_PERSONALES
             WHERE DNI = ?
         """;
         try {
-        	PreparedStatement ps = cx.prepareStatement(sql);
+        	PreparedStatement ps = ConexionBD.getInstancia().getConexion().prepareStatement(sql);
         	
             ps.setLong(1, dni);
             ResultSet rs = ps.executeQuery();

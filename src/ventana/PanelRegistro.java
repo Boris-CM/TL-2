@@ -1,108 +1,77 @@
 package ventana;
 import javax.swing.*;
+
+import dao.implementacion.DatosPersonalesDAOjdbc;
+import dao.implementacion.UsuarioDAOjdbc;
+
 import java.awt.*;
+import java.awt.event.*;
 
 public class PanelRegistro extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private JPanel norte;
+	private JPanel centro;
+	private JPanel sur;
 
-	private JTextField campoNombre;
-	private JTextField campoApellido;
-	private JTextField campoDNI;
-    private JTextField campoNombreUsuario;
-    private JTextField campoEmail;
-    private JPasswordField campoContrasenia;
-    private JButton btnRegistrar;
+	private JLabel titulo;
+	private JLabel label;
     private JButton btnVolver;
 
-    public PanelRegistro(Main mainWindow) {
-
-        inicializarComponentes();
+    public PanelRegistro(Main mainWindow, DatosPersonalesDAOjdbc datosPersonalesDAO, UsuarioDAOjdbc usuarioDAO) {
+    	
+        
+        inicializarComponentes(mainWindow, datosPersonalesDAO, usuarioDAO);
         configurarEventos(mainWindow);
     }
 
-    private void inicializarComponentes() {
-    	campoNombre = new JTextField(15);
-    	campoApellido = new JTextField(15);
-    	campoDNI = new JTextField(15);
-    	campoNombreUsuario = new JTextField(15);
-    	campoEmail = new JTextField(15);
-        campoContrasenia = new JPasswordField(15);
+    private void inicializarComponentes(Main mainWindow, DatosPersonalesDAOjdbc datosPersonalesDAO, UsuarioDAOjdbc usuarioDAO) {
+    	setLayout(new BorderLayout());
+    	
+    	norte = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+    	centro = new FormularioRegistro(mainWindow, datosPersonalesDAO, usuarioDAO);
+    	sur = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        btnRegistrar = new JButton("Crear cuenta");
-        btnVolver = new JButton("Volver");
-        
-        setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints(); //Configuración
-        c.insets = new Insets(10, 10, 10, 10);
-        c.fill = GridBagConstraints.HORIZONTAL;
+    	titulo = new JLabel("Formulario de Registro");
+    	titulo.setFont(new Font("Roboto", Font.BOLD, 26));
+    	titulo.setForeground(new Color(30, 30, 30));
+    	
+    	label = new JLabel("¿Ya te habías registrado?");
+    	
+    	btnVolver = new JButton("Volver");
+    	btnVolver.setBorderPainted(false);
+    	btnVolver.setOpaque(false);
+    	btnVolver.setContentAreaFilled(false);
+    	btnVolver.setForeground(Color.BLUE);
+    	btnVolver.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    	btnVolver.setFocusPainted(false);
 
-        c.gridx = 0; c.gridy = 0;
-        add(new JLabel("Nombre:"), c);
-        c.gridx = 1; c.gridy = 0;
-        add(campoNombre, c);
+    	norte.add(titulo);
+    	sur.add(label);
+    	sur.add(btnVolver);
 
-        c.gridx = 0; c.gridy = 1;
-        add(new JLabel("Apellido:"), c);
-        c.gridx = 1; c.gridy = 1;
-        add(campoApellido, c);
-        
-        c.gridx = 0; c.gridy = 2;
-        add(new JLabel("DNI:"), c);
-        c.gridx = 1; c.gridy = 2;
-        add(campoDNI, c);
-        
-        c.gridx = 0; c.gridy = 3;
-        add(new JLabel("Nombre de Usuario:"), c);
-        c.gridx = 1; c.gridy = 3;
-        add(campoNombreUsuario, c);
-        
-        c.gridx = 0; c.gridy = 4;
-        add(new JLabel("Email:"), c);
-        c.gridx = 1; c.gridy = 4;
-        add(campoEmail, c);
-        
-        c.gridx = 0; c.gridy = 5;
-        add(new JLabel("Contraseña:"), c);
-        c.gridx = 1; c.gridy = 5;
-        add(campoContrasenia, c);
-
-        c.gridx = 0; c.gridy = 6;
-        add(btnRegistrar, c);
-        c.gridx = 1; c.gridy = 6;
-        add(btnVolver, c);
+    	add(norte, BorderLayout.NORTH);
+    	add(centro, BorderLayout.CENTER);
+    	add(sur, BorderLayout.SOUTH);
     }
 
     private void configurarEventos(Main mainWindow) {
-        btnRegistrar.addActionListener(e -> {
-        	String nombre = campoNombre.getText();
-        	String apellido = campoApellido.getText();
-        	String dni = campoDNI.getText();
-            String nombreUsuario = campoNombreUsuario.getText();
-            String email = campoEmail.getText();
-            String pass = new String(campoContrasenia.getPassword());
 
-            if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() || nombreUsuario.isEmpty() || email.isEmpty() || pass.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
-                return;
+        btnVolver.addActionListener(e -> mainWindow.mostrarLogin());
+        
+        btnVolver.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnVolver.setForeground(new Color(60, 0, 200));
             }
 
-            JOptionPane.showMessageDialog(this, "Usuario registrado correctamente");
-            limpiarCampos();
-            mainWindow.mostrarLogin();
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnVolver.setForeground(Color.BLUE);
+            }
         });
+        
+    }
 
-        btnVolver.addActionListener(e -> {
-        	mainWindow.mostrarLogin();
-        });
-    }
-    
-    public void limpiarCampos() {
-    	campoNombre.setText("");
-    	campoApellido.setText("");
-    	campoDNI.setText("");
-    	campoNombreUsuario.setText("");
-    	campoEmail.setText("");
-    	campoContrasenia.setText("");
-    }
 }

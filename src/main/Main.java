@@ -34,14 +34,14 @@ public class Main {
 				sc.nextLine();
 	
 				switch (opcion) {
-				case 1 -> servicio.registrarDatosPersonales(cx, factory.getDatosDAO());
-				case 2 -> servicio.registrarUsuario(cx, factory.getDatosDAO(), factory.getUsuarioDAO());
-				case 3 -> servicio.registrarPelicula(cx, factory.getPeliculaDAO());
-				case 4 -> servicio.listarUsuarios(cx, factory.getUsuarioDAO());
-				case 5 -> servicio.listarPeliculas(cx, factory.getPeliculaDAO());
-				case 6 -> servicio.registrarResenia(cx, factory.getUsuarioDAO(), factory.getPeliculaDAO(),
+				case 1 -> servicio.registrarDatosPersonales(factory.getDatosDAO());
+				case 2 -> servicio.registrarUsuario(factory.getDatosDAO(), factory.getUsuarioDAO());
+				case 3 -> servicio.registrarPelicula(factory.getPeliculaDAO());
+				case 4 -> servicio.listarUsuarios(factory.getUsuarioDAO());
+				case 5 -> servicio.listarPeliculas(factory.getPeliculaDAO());
+				case 6 -> servicio.registrarResenia(factory.getUsuarioDAO(), factory.getPeliculaDAO(),
 						factory.getReseniaDAO());
-				case 7 -> servicio.aprobarResenia(cx, factory.getReseniaDAO());
+				case 7 -> servicio.aprobarResenia(factory.getReseniaDAO());
 				case 0 -> System.out.println("Saliendo...");
 				default -> System.out.println("⚠️ Opción inválida.");
 				}

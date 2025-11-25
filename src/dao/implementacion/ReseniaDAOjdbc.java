@@ -1,6 +1,5 @@
 package dao.implementacion;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,14 +7,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import conexion.ConexionBD;
 import dao.ReseniaDAO;
 import modelo.Resenia;
 
 public class ReseniaDAOjdbc implements ReseniaDAO{
-	public void insertar(Connection cx, int calificaion, String comentario, int aprobado, String fechaHora, int idU, int idP) {
+	public void insertar(int calificaion, String comentario, int aprobado, String fechaHora, int idU, int idP) {
         String sql = "INSERT INTO RESENIA (CALIFICACION, COMENTARIO, APROBADO, FECHA_HORA, ID_USUARIO, ID_PELICULA) VALUES (?, ?, ?, ?, ?, ?)";
         try {
-        	PreparedStatement ps = cx.prepareStatement(sql);
+        	PreparedStatement ps = ConexionBD.getInstancia().getConexion().prepareStatement(sql);
 
             ps.setInt(1, calificaion);
             ps.setString(2, comentario);
@@ -31,11 +31,11 @@ public class ReseniaDAOjdbc implements ReseniaDAO{
         }
     }
 
-    public List<Resenia> listarNoAprobadas(Connection cx) {
+    public List<Resenia> listarNoAprobadas() {
         List<Resenia> lista = new ArrayList<Resenia>();
         String sql = "SELECT * FROM RESENIA WHERE APROBADO = 0";
         try {
-        	Statement st = cx.createStatement();
+        	Statement st = ConexionBD.getInstancia().getConexion().createStatement();
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
@@ -57,10 +57,10 @@ public class ReseniaDAOjdbc implements ReseniaDAO{
         return lista;
     }
 
-    public void aprobar(Connection cx, int idResenia) {
+    public void aprobar(int idResenia) {
         String sql = "UPDATE RESENIA SET APROBADO = 1 WHERE ID = ?";
         try {
-            PreparedStatement ps = cx.prepareStatement(sql);
+            PreparedStatement ps = ConexionBD.getInstancia().getConexion().prepareStatement(sql);
         
             ps.setInt(1, idResenia);
             int filas = ps.executeUpdate();

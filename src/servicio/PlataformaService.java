@@ -5,7 +5,6 @@ import enumerativo.Genero;
 import comparador.*;
 import dao.implementacion.*;
 
-import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class PlataformaService {
     
 
     // --- OPCIÓN 1: REGISTRAR DATOS PERSONALES ---
-    public void registrarDatosPersonales(Connection cx, DatosPersonalesDAOjdbc datosDAO) {
+    public void registrarDatosPersonales(DatosPersonalesDAOjdbc datosDAO) {
         System.out.println("\n=== Registrar Datos Personales ===");
         System.out.print("Nombre: ");
         String nombre = sc.nextLine();
@@ -36,7 +35,7 @@ public class PlataformaService {
         
         //No debe de haber un DNI igual
         String dniStr = String.valueOf(dni);
-        if (dniStr.length() != 11 || datosDAO.buscarPorDNI(cx, dni) != null) {
+        if (dniStr.length() != 11 || datosDAO.buscarPorDNI(dni) != null) {
         	errores.add("❌ Error: DNI inválido.");
         }
         
@@ -52,17 +51,17 @@ public class PlataformaService {
         System.out.println(nombre + " " + apellido + " - DNI: " + dni);
         System.out.print("¿Confirmar registro? (s/n): ");
         if (sc.nextLine().equalsIgnoreCase("s")) {
-        	datosDAO.insertar(cx, nombre, apellido, dni);
+        	datosDAO.insertar(nombre, apellido, dni);
         } else {
             System.out.println("Registro cancelado.");
         }
     }
 
     // --- OPCIÓN 2: REGISTRAR USUARIO ---
-    public void registrarUsuario(Connection cx, DatosPersonalesDAOjdbc datosDAO, UsuarioDAOjdbc usuarioDAO) {
+    public void registrarUsuario(DatosPersonalesDAOjdbc datosDAO, UsuarioDAOjdbc usuarioDAO) {
         System.out.println("\n=== Registrar Usuario ===");
 
-        List<DatosPersonales> personas = datosDAO.listarTodos(cx);
+        List<DatosPersonales> personas = datosDAO.listarTodos();
         if (personas.isEmpty()) {
             System.out.println("⚠️ No hay datos personales cargados. Primero registre una persona.");
             return;
@@ -110,14 +109,14 @@ public class PlataformaService {
         System.out.println("\nUsuario: " + nombreUsuario + " (" + email + ")");
         System.out.print("¿Confirmar registro? (s/n): ");
         if (sc.nextLine().equalsIgnoreCase("s")) {
-            usuarioDAO.insertar(cx, nombreUsuario, email, contrasenia, seleccionada.getId());
+            usuarioDAO.insertar(nombreUsuario, email, contrasenia, seleccionada.getId());
         } else {
             System.out.println("Registro cancelado.");
         }
     }
 
     // --- OPCIÓN 3: REGISTRAR PELÍCULA ---
-    public void registrarPelicula(Connection cx, PeliculaDAOjdbc peliculaDAO) {
+    public void registrarPelicula(PeliculaDAOjdbc peliculaDAO) {
         System.out.println("\n=== Registrar Película ===");
         System.out.print("Título: ");
         String titulo = sc.nextLine();
@@ -144,7 +143,7 @@ public class PlataformaService {
         System.out.println("\nPelícula: " + titulo + " (" + genero + "), Dir: " + director + ", Duración: " + duracion);
         System.out.print("¿Confirmar registro? (s/n): ");
         if (sc.nextLine().equalsIgnoreCase("s")) {
-            peliculaDAO.insertar(cx, titulo, director, resumen, duracion, genero);
+            peliculaDAO.insertar(titulo, director, resumen, duracion, genero);
         } else {
             System.out.println("Registro cancelado.");
         }
@@ -158,9 +157,9 @@ public class PlataformaService {
     }
 
     // --- OPCIÓN 4: LISTAR USUARIOS ---
-    public void listarUsuarios(Connection cx, UsuarioDAOjdbc usuarioDAO) {
+    public void listarUsuarios(UsuarioDAOjdbc usuarioDAO) {
         System.out.println("\n=== Listado de Usuarios ===");
-        List<Usuario> usuarios = usuarioDAO.listarTodos(cx);
+        List<Usuario> usuarios = usuarioDAO.listarTodos();
         if (usuarios.isEmpty()) {
             System.out.println("⚠️ No hay usuarios registrados.");
             return;
@@ -181,9 +180,9 @@ public class PlataformaService {
     }
 
     // --- OPCIÓN 5: LISTAR PELÍCULAS ---
-    public void listarPeliculas(Connection cx, PeliculaDAOjdbc peliculaDAO) {
+    public void listarPeliculas(PeliculaDAOjdbc peliculaDAO) {
         System.out.println("\n=== Listado de Películas ===");
-        List<Audiovisual> pelis = peliculaDAO.listarTodas(cx);
+        List<Audiovisual> pelis = peliculaDAO.listarTodas();
         if (pelis.isEmpty()) {
             System.out.println("⚠️ No hay películas registradas.");
             return;
@@ -209,20 +208,20 @@ public class PlataformaService {
     }
 
     // --- OPCIÓN 6: REGISTRAR RESENIA ---
-    public void registrarResenia(Connection cx, UsuarioDAOjdbc usuarioDAO, PeliculaDAOjdbc peliculaDAO, ReseniaDAOjdbc reseniaDAO) {
+    public void registrarResenia(UsuarioDAOjdbc usuarioDAO, PeliculaDAOjdbc peliculaDAO, ReseniaDAOjdbc reseniaDAO) {
         System.out.println("\n=== Registrar Reseña ===");
         System.out.print("Usuario: ");
         String nombreUsuario = sc.nextLine();
         System.out.print("Contraseña: ");
         String pass = sc.nextLine();
 
-        Usuario u = usuarioDAO.buscarPorCredenciales(cx, nombreUsuario, pass);
+        Usuario u = usuarioDAO.buscarPorCredenciales(nombreUsuario, pass);
         if (u == null) {
             System.out.println("❌ Credenciales inválidas.");
             return;
         }
 
-        List<Audiovisual> pelis = peliculaDAO.listarTodas(cx);
+        List<Audiovisual> pelis = peliculaDAO.listarTodas();
         if (pelis.isEmpty()) {
             System.out.println("⚠️ No hay películas registradas.");
             return;
@@ -253,16 +252,16 @@ public class PlataformaService {
         System.out.println("\nReseña: " + calif + "/10 - " + comentario);
         System.out.print("¿Confirmar registro? (s/n): ");
         if (sc.nextLine().equalsIgnoreCase("s")) {
-            reseniaDAO.insertar(cx, calif, comentario, 0, fecha, u.getId(), seleccionada.getId());
+            reseniaDAO.insertar(calif, comentario, 0, fecha, u.getId(), seleccionada.getId());
         } else {
             System.out.println("Registro cancelado.");
         }
     }
 
     // --- OPCIÓN 7: APROBAR RESEÑA ---
-    public void aprobarResenia(Connection cx, ReseniaDAOjdbc reseniaDAO) {
+    public void aprobarResenia(ReseniaDAOjdbc reseniaDAO) {
         System.out.println("\n=== Aprobar Reseñas ===");
-        List<Resenia> lista = reseniaDAO.listarNoAprobadas(cx);
+        List<Resenia> lista = reseniaDAO.listarNoAprobadas();
         if (lista.isEmpty()) {
             System.out.println("⚠️ No hay reseñas pendientes.");
             return;
@@ -277,7 +276,7 @@ public class PlataformaService {
 
         System.out.print("¿Confirmar aprobación? (s/n): ");
         if (sc.nextLine().equalsIgnoreCase("s")) {
-            reseniaDAO.aprobar(cx, id);
+            reseniaDAO.aprobar(id);
         } else {
             System.out.println("Operación cancelada.");
         }
