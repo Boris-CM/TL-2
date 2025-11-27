@@ -104,4 +104,38 @@ public class UsuarioDAOjdbc implements UsuarioDAO{
         }
         return null;
     }
+    
+    public Usuario buscarPorEmail(String email) {
+        String sql = """
+            SELECT U.ID, U.NOMBRE_USUARIO, U.EMAIL, U.CONTRASENIA,
+                   D.ID AS DP_ID, D.NOMBRES, D.APELLIDO, D.DNI
+            FROM USUARIO U
+            JOIN DATOS_PERSONALES D ON U.ID_DATOS_PERSONALES = D.ID
+            WHERE U.EMAIL = ? AND U.CONTRASENIA = ?
+        """;
+        try {
+        	PreparedStatement ps = ConexionBD.getInstancia().getConexion().prepareStatement(sql);
+        	
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                DatosPersonales dp = new DatosPersonales(
+                        rs.getInt("DP_ID"),
+                        rs.getString("NOMBRES"),
+                        rs.getString("APELLIDO"),
+                        rs.getInt("DNI")
+                );
+                return new Usuario(
+                        rs.getInt("ID"),
+                        dp,
+                        rs.getString("NOMBRE_USUARIO"),
+                        rs.getString("EMAIL"),
+                        rs.getString("CONTRASENIA")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Error al buscar usuario: " + e.getMessage());
+        }
+        return null;
+    }
 }

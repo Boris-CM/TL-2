@@ -1,4 +1,4 @@
-package componente;
+package vista.componente;
 
 import java.awt.*;
 import javax.swing.*;

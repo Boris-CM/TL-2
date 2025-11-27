@@ -9,6 +9,8 @@ public interface UsuarioDAO {
 
     public List<Usuario> listarTodos();
 
-    public Usuario buscarPorCredenciales(String usuario, String contrasenia);
+    public Usuario buscarPorCredenciales(String email, String contrasenia);
+    
+    public Usuario buscarPorEmail(String email);
     
 }

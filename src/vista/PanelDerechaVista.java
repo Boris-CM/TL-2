@@ -1,13 +1,13 @@
-package ventana;
+package vista;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Panel extends JPanel  {
+public class PanelDerechaVista extends JPanel  {
 	
 	private static final long serialVersionUID = 1L;
 
-	public Panel() {
+	public PanelDerechaVista() {
 		setOpaque(true);
 	}
 	

@@ -1,23 +1,22 @@
-package ventana;
+package vista.formulario;
 
 import java.awt.*;
 
 import javax.swing.*;
 
-import componente.CampoValidable;
-import dao.implementacion.*;
-import modelo.DatosPersonales;
 import validacion.*;
+import vista.componente.CampoValidable;
 
 public class FormularioRegistro extends JPanel {
 	private static final long serialVersionUID = 1L;
 
+	/*
 	private JLabel labelNombre;
 	private JLabel labelApellido;
 	private JLabel labelDNI;
     private JLabel labelNombreUsuario;
     private JLabel labelEmail;
-    private JLabel labelContrasenia;
+    private JLabel labelContrasenia;*/
     
 	private JTextField campoNombre;
 	private JTextField campoApellido;
@@ -37,18 +36,108 @@ public class FormularioRegistro extends JPanel {
     
     private JButton btnRegistrar;
 
-    public FormularioRegistro(Main mainWindow, DatosPersonalesDAOjdbc datosPersonalesDAO, UsuarioDAOjdbc usuarioDAO) {
-        inicializarComponentes();
-        configurarEventos(mainWindow, datosPersonalesDAO, usuarioDAO);
-    }
+    /*
+	public JLabel getLabelNombre() {
+		return labelNombre;
+	}
 
-    private void inicializarComponentes() {
-    	labelNombre = new JLabel("Nombre:");
-    	labelApellido = new JLabel("Apellido:");
-    	labelDNI = new JLabel("DNI:");
-    	labelNombreUsuario = new JLabel("Nombre de Usuario:");
-        labelEmail = new JLabel("Email:");
-        labelContrasenia = new JLabel("Contraseña:");
+
+	public JLabel getLabelApellido() {
+		return labelApellido;
+	}
+
+
+	public JLabel getLabelDNI() {
+		return labelDNI;
+	}
+
+
+	public JLabel getLabelNombreUsuario() {
+		return labelNombreUsuario;
+	}
+
+
+	public JLabel getLabelEmail() {
+		return labelEmail;
+	}
+
+
+	public JLabel getLabelContrasenia() {
+		return labelContrasenia;
+	}
+	*/
+	public JTextField getCampoNombre() {
+		return campoNombre;
+	}
+
+
+	public JTextField getCampoApellido() {
+		return campoApellido;
+	}
+
+
+	public JTextField getCampoDNI() {
+		return campoDNI;
+	}
+
+
+	public JTextField getCampoNombreUsuario() {
+		return campoNombreUsuario;
+	}
+
+
+	public JTextField getCampoEmail() {
+		return campoEmail;
+	}
+
+
+	public JPasswordField getCampoContrasenia() {
+		return campoContrasenia;
+	}
+
+
+	public JLabel getErrorNombre() {
+		return errorNombre;
+	}
+
+
+	public JLabel getErrorApellido() {
+		return errorApellido;
+	}
+
+
+	public JLabel getErrorDNI() {
+		return errorDNI;
+	}
+
+
+	public JLabel getErrorNombreUsuario() {
+		return errorNombreUsuario;
+	}
+
+
+	public JLabel getErrorEmail() {
+		return errorEmail;
+	}
+
+
+	public JLabel getErrorContrasenia() {
+		return errorContrasenia;
+	}
+
+
+	public JButton getBtnRegistrar() {
+		return btnRegistrar;
+	}
+
+
+	public FormularioRegistro() {
+		JLabel labelNombre = new JLabel("Nombre:");
+		JLabel labelApellido = new JLabel("Apellido:");
+		JLabel labelDNI = new JLabel("DNI:");
+		JLabel labelNombreUsuario = new JLabel("Nombre de Usuario:");
+		JLabel labelEmail = new JLabel("Email:");
+		JLabel labelContrasenia = new JLabel("Contraseña:");
         
         labelNombre.setHorizontalAlignment(SwingConstants.RIGHT);
         labelApellido.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -117,6 +206,7 @@ public class FormularioRegistro extends JPanel {
         add(btnRegistrar, c);
     }
 
+
     private int agregarCampo(GridBagConstraints c, int fila,
     		JLabel label, JComponent input, JLabel errorLabel) {
 
@@ -141,45 +231,6 @@ public class FormularioRegistro extends JPanel {
         add(errorLabel, c);
 
         return fila + 1;
-    }
-
-    private void configurarEventos(Main mainWindow, DatosPersonalesDAOjdbc datosPersonalesDAO, UsuarioDAOjdbc usuarioDAO) {
-    	
-    	btnRegistrar.addActionListener(e -> {
-    		String nombre = campoNombre.getText();
-            String apellido = campoApellido.getText();
-            String dni = campoDNI.getText();
-            String nombreUsuario = campoNombreUsuario.getText();
-            String email = campoEmail.getText();
-            String contrasenia = new String(campoContrasenia.getPassword());
-    		
-            // Validar que no haya campos vacios
-    		if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() || nombreUsuario.isEmpty() || email.isEmpty() || contrasenia.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
-                return;
-            }
-
-            // Validar que no haya errores visibles
-            if (!errorNombre.getText().isEmpty() ||
-                !errorApellido.getText().isEmpty() ||
-                !errorDNI.getText().isEmpty() ||
-                !errorContrasenia.getText().isEmpty()
-            ) {
-                JOptionPane.showMessageDialog(this, "Corrija los errores antes de continuar");
-                return;
-            }
-
-            // Guardar en BD
-            datosPersonalesDAO.insertar(nombre, apellido, Long.parseLong(dni));
-            DatosPersonales nuevo = datosPersonalesDAO.buscarPorDNI(Long.parseLong(dni));
-            usuarioDAO.insertar(nombre, email, contrasenia, nuevo.getId());
-
-            JOptionPane.showMessageDialog(this, "Usuario registrado correctamente");
-
-            limpiarCampos();
-            mainWindow.mostrarLogin();
-        });
-
     }
     
     public void limpiarCampos() {
