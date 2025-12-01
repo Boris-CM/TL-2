@@ -25,6 +25,6 @@ public class DatosPersonales {
 
     @Override
     public String toString() {
-        return id + " - " + nombres + " " + apellido + " (DNI: " + dni + ")";
+        return "datosPersonalesId= " +id + ", Nombre=" + nombres + ", Apellido= " + apellido + ", DNI= " + dni;
     }
 }

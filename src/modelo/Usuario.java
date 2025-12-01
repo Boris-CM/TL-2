@@ -120,7 +120,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", datos= DatosPersonales[" + datos.toString() + "], nombreUsuario=" + nombreUsuario + ", email=" + email
+		return "Usuario [usuarioId=" + id + ", " + datos.toString() + ", nombreUsuario=" + nombreUsuario + ", email=" + email
 				+ ", contrasenia=" + contrasenia + ", generosFavoritos=" + generosFavoritos + ", pais=" + pais
 				+ ", idioma=" + idioma + ", estado=" + estado + ", favoritos=" + favoritos + ", historial=" + historial
 				+ "]";

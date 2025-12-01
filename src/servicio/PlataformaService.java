@@ -18,26 +18,45 @@ public class PlataformaService {
 
     // --- OPCIÓN 1: REGISTRAR DATOS PERSONALES ---
     public void registrarDatosPersonales(DatosPersonalesDAOjdbc datosDAO) {
+    	List<String> errores = new ArrayList<String>();
+    	
         System.out.println("\n=== Registrar Datos Personales ===");
         System.out.print("Nombre: ");
         String nombre = sc.nextLine();
+        
+        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚ]+( [a-zA-ZáéíóúÁÉÍÓÚ]+)*")) {
+        	errores.add("❌ Error: Nombre con caracteres inválidos.");
+        }
+        
         System.out.print("Apellido: ");
         String apellido = sc.nextLine();
-        System.out.print("DNI: ");
-        long dni = sc.nextLong(); sc.nextLine();
         
-        List<String> errores = new ArrayList<String>();
-
+        if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚ]+( [a-zA-ZáéíóúÁÉÍÓÚ]+)*")) {
+        	errores.add("❌ Error: Apellido con caracteres inválidos.");
+        }
+        
         //if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚ ]+") || !apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚ ]+")) {
-        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚ]+( [a-zA-ZáéíóúÁÉÍÓÚ]+)*") || !apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚ]+( [a-zA-ZáéíóúÁÉÍÓÚ]+)*")) {
-        	errores.add("❌ Error: Nombre o Apellido con caracteres inválidos.");
-        }
         
-        //No debe de haber un DNI igual
-        String dniStr = String.valueOf(dni);
-        if (dniStr.length() != 11 || datosDAO.buscarPorDNI(dni) != null) {
-        	errores.add("❌ Error: DNI inválido.");
-        }
+        System.out.print("DNI: ");
+        String dniStr = sc.nextLine();
+        
+	     // Solo debe de tener numeros
+	     if (!dniStr.matches("\\d+")) {
+	         errores.add("❌ Error: El DNI solo puede contener números.");
+	     } else {
+	
+	         // Su longitud debe de ser 11
+	         if (dniStr.length() != 11) {
+	             errores.add("❌ Error: El DNI debe tener 11 dígitos.");
+	         } else {
+	             long dni = Long.parseLong(dniStr);
+	
+	             //No debe de haber un DNI igual
+	             if (datosDAO.buscarPorDNI(dni) != null) {
+	                 errores.add("❌ Error: DNI ya registrado.");
+	             }
+	         }
+	     }
         
         //Si hay errores los muestra por pantalla
         if (errores.size() != 0) {
@@ -48,10 +67,10 @@ public class PlataformaService {
         }
 
         System.out.println("\nDatos ingresados:");
-        System.out.println(nombre + " " + apellido + " - DNI: " + dni);
+        System.out.println(nombre + " " + apellido + " - DNI: " + dniStr);
         System.out.print("¿Confirmar registro? (s/n): ");
         if (sc.nextLine().equalsIgnoreCase("s")) {
-        	datosDAO.insertar(nombre, apellido, dni);
+        	datosDAO.insertar(nombre, apellido, Long.parseLong(dniStr));
         } else {
             System.out.println("Registro cancelado.");
         }
@@ -84,6 +103,9 @@ public class PlataformaService {
 
         System.out.print("Nombre de usuario: ");
         String nombreUsuario = sc.nextLine();
+        if (nombreUsuario.length() == 0) {
+        	errores.add("❌ Error: Nombre de usuario no puede estar vacio.");
+        }
 
         System.out.print("Email: ");
         String email = sc.nextLine();
@@ -117,13 +139,29 @@ public class PlataformaService {
 
     // --- OPCIÓN 3: REGISTRAR PELÍCULA ---
     public void registrarPelicula(PeliculaDAOjdbc peliculaDAO) {
+    	List<String> errores = new ArrayList<String>();
+    	
         System.out.println("\n=== Registrar Película ===");
         System.out.print("Título: ");
         String titulo = sc.nextLine();
+        
+        if (titulo.length() == 0) {
+        	errores.add("❌ Error: El titulo no puede estar vacio.");
+        }
+        
         System.out.print("Director: ");
         String director = sc.nextLine();
+        
+        if (director.length() == 0) {
+        	errores.add("❌ Error: El Director no puede estar vacio.");
+        }
+        
         System.out.print("Duración (minutos): ");
         double duracion = sc.nextDouble(); sc.nextLine();
+        
+        if (duracion <= 0) {
+        	errores.add("❌ Error: La Duracion no puede ser menor o igual a 0.");
+        }
 
         System.out.println("Seleccione género:");
         for (Genero g : Genero.values()) {
@@ -133,12 +171,18 @@ public class PlataformaService {
         String genero = sc.nextLine().toUpperCase();
 
         if (!existeGenero(genero)) {
-            System.out.println("❌ Género inválido.");
-            return;
+        	errores.add("❌ Error: La Duracion no puede ser menor o igual a 0.");
         }
 
         System.out.print("Resumen (opcional): ");
         String resumen = sc.nextLine();
+        
+        if (errores.size() != 0) {
+        	for (int i = 0; i < errores.size(); i++) {
+                System.out.println(errores.get(i));
+            }
+        	return;
+        }
 
         System.out.println("\nPelícula: " + titulo + " (" + genero + "), Dir: " + director + ", Duración: " + duracion);
         System.out.print("¿Confirmar registro? (s/n): ");
